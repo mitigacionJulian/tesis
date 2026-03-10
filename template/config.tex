@@ -1,0 +1,61 @@
+\newcommand{\shortlorem}{Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Etiam lobortis facilisis sem. Nullam
+nec mi et neque pharetra sollicitudin. Praesent imperdiet mi nec ante.}
+
+% usa pakage caption
+\renewcommand{\thetable}{\Roman{table}}
+\captionsetup[table]{labelfont=bf, labelsep=newline}
+\captionsetup[figure]{labelfont=bf, labelsep=period}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%        key words - palabras clave
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\providecommand{\keywords}[1]
+{
+  \small	
+  \textbf{\textit{Keywords --- } #1 } 
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %  regresa la fuente a 12 pt
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ \normalsize
+}
+
+\providecommand{\palabrasclave}[1]
+{
+  \small	
+  \textbf{\textit{Palabras clave --- } #1 } 
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %  regresa la fuente a 12 pt
+  %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+ \normalsize
+}
+
+
+
+%usa package array
+% nuevo tipo de columna (P mayuscula) que centra el texto
+\newcolumntype{P}[1]{>{\centering\arraybackslash}p{#1}}
+
+
+% usa pakage babel y cquotes
+\addto\captionsenglish{\renewcommand{\contentsname}{TABLA DE CONTENIDO}}
+\addto\captionsenglish{\renewcommand{\listfigurename}{LISTA DE FIGURAS}}
+\addto\captionsenglish{\renewcommand{\listtablename}{LISTA DE TABLAS}}
+\addto\captionsenglish{\renewcommand{\figurename}{Fig.}}
+\addto\captionsenglish{\renewcommand{\tablename}{TABLA}}
+
+
+\title{Plantilla}
+\author{Author Name }
+\date{May 2022}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%        eliminados 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%usa package makecell
+%usado en config/pages/tables/tabla_como_citar
+%\newlist{mylist}{enumerate}{2}% a new list named: mylist, of type: enumerate, with number of levels: 2
+
+%\setlist[mylist,1]{leftmargin=0.6cm,label={\alph*)}, topsep=0pt}% defining the first level
+%\setlist[mylist,2]{leftmargin=1cm,label={\roman*)}}% defining the second level

@@ -1,0 +1,45 @@
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  usa el paquete titlesec
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% Centrar títulos de secciones
+%\usepackage{sectsty}
+%\sectionfont{\centering}
+
+% Empezar sección en una nueva pagina
+\let\stdsection\section
+\renewcommand\section{\cleardoublepage\stdsection}
+
+%  formato aplicado en la tabla de contenido 
+\renewcommand{\thesection}{\Roman{section}}
+\renewcommand{\thesubsection}{\Alph{subsection}}
+\renewcommand{\thesubsubsection}{\arabic{subsubsection})}
+\renewcommand{\theparagraph}{\alph{paragraph})}
+
+% paquete titlesec
+\titleformat{\section}[hang]
+    {\filcenter\normalfont\normalsize\bfseries} % centra la seccion 
+    {\Roman{section}.}
+    {1em}{}[]
+
+% paquete titlesec
+\titleformat{\subsection}[hang]
+    {\normalfont\normalsize\bfseries}     % la subseccion ya esta centrada por defecto
+    {\Alph{subsection}.}
+    {1em}{}
+
+% paquete titlesec
+\titleformat{\subsubsection}[runin]{\normalfont\itshape\normalsize\bfseries}
+    {\arabic{subsubsection})}
+    {1em}
+    {}
+    [:]
+\titlespacing{\subsubsection}{0.5cm}{*1}{*1}[0cm]
+
+% paquete titlesec
+\titleformat{\paragraph}[runin]{\normalfont\itshape\normalsize\bfseries}
+    {\alph{paragraph})}
+    {1em}
+    {}
+    [:]
+\titlespacing{\paragraph}{1.0cm}{*1}{*1}[0cm]

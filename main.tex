@@ -1,0 +1,371 @@
+\documentclass[12pt]{article} 
+\usepackage[letterpaper, margin=2.5cm]{geometry}
+% enlaza la tabla de contenido con las paginas
+\usepackage[linktoc=all ]{hyperref}
+% usar con XETEX
+\usepackage{fontspec} % quite [no-math] si presenta error en compilacion
+\setmainfont{Times New Roman}
+\setlength{\parindent}{1.2cm} % sangria de 1.2cm en la primera linea del parrafo
+%\usepackage[utf8]{inputenc} 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%%%% evita que coloque guiones al justificar
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+  %\tolerance 9999
+  %\emergencystretch 3em
+  %\vfuzz\hfuzz
+
+% https://sumanta679.wordpress.com/2009/05/20/latex-justify-without-hyphenation/
+\tolerance=1000
+\emergencystretch=\maxdimen
+\hyphenpenalty=10000
+\hbadness=10000
+
+%\usepackage{hyphenat}
+%\usepackage{microtype}
+%\usepackage[none]{hyphenat}
+
+%\tolerance=9999
+%\emergencystretch=10pt
+%\hyphenpenalty=10000
+%\exhyphenpenalty=100
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%        interlineado 1.5
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%─────────────────────────────────────┐
+\usepackage{setspace}                %│  
+\onehalfspacing                      %│
+%─────────────────────────────────────┘
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  elimina identacion en las listas
+%  se usa el paquete enumitem
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%─────────────────────────────────────┐
+\usepackage{enumitem}                %│          
+\setlist[itemize]{leftmargin=*}      %│  
+%─────────────────────────────────────┘
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% paquete para referencias
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage[style=ieee]{biblatex}
+\addbibresource{bibs/sample.bib}   
+
+
+
+% para que las urls tengan la misma fuente que resto del documento
+%https://tex.stackexchange.com/questions/106622/how-to-change-the-font-of-url-in-the-bibliography
+\usepackage{url}
+\urlstyle{same}
+
+%% coloca s.f cuando no tiene anio la referencia
+%% https://copyprogramming.com/howto/biblatex-and-entries-with-no-date
+%\newcommand{\mkbibnodate}{s\adddot f\adddot}
+%\AtEveryCitekey{\iffieldundef{labelyear}{\restorefield{labelyear}{\mkbibnodate}}{}}
+%\AtEveryBibitem{\iffieldundef{labelyear}{\restorefield{year}{\mkbibnodate}}{}}
+
+% https://tex.stackexchange.com/questions/612417/biblatex-and-entries-with-no-date-part-2
+\renewbibmacro*{date}{%
+  \iffieldundef{year}
+    {\bibstring{nodate}}
+    {\printdate}}
+
+\DeclareFieldFormat{url}{[Internet]\adddot\space\bibstring{urlfrom}\space\url{#1}}
+
+\DeclareFieldFormat{urldate}{\adddot\addspace[\bibstring{urlseen}\addcolon\space #1]}
+
+% puntos en cada entrada d la biliografia
+\renewcommand*{\newunitpunct}{\addcomma\space}
+%\renewcommand*{\newunitpunct}{\addperiod\space}
+  
+\DefineBibliographyStrings{spanish}{%
+  urlfrom = {Disponible en},
+  urlseen = {Consultado}
+} 
+
+
+\newbibmacro*{author+title+date}{%
+  \ifnameundef{editor}
+    {}
+    {%
+      \usebibmacro{editor}%
+      \setunit{\addspace}%
+      \printnames[byeditor]{editor}%
+      \clearname{editor}%
+      \newunit
+    }%
+  \usebibmacro{byeditorx}%
+  \usebibmacro{bytranslator+others}%
+  \ifnameundef{author}
+  {%
+    \printfield{title}
+    \printtext[parens]{\usebibmacro{date}}
+  }%
+  {%
+      \usebibmacro{author}\addcomma\space%
+      \printtext[parens]{\usebibmacro{date}} \adddot \addspace %
+      \printfield{title} \adddot
+  }%
+}
+
+
+
+\DeclareBibliographyDriver{online}{%
+  \usebibmacro{bibindex}%
+  \usebibmacro{begentry}%
+  %\usebibmacro{author/editor+others/translator+others}%
+  \usebibmacro{author+title+date}%
+  %\setunit{\adddot\addspace}% ELIMINADO
+  %\usebibmacro{title}%        ELIMINADO  
+  \setunit{\adddot\addspace}%
+  \printlist{language}%
+  \setunit{\adddot\addspace}%
+  \usebibmacro{byauthor}%
+  \setunit{\adddot\addspace}%
+  \usebibmacro{byeditor+others}%
+  \setunit{\adddot\addspace}%
+  \printfield{version}%
+  \setunit{\adddot\addspace}%
+  \printfield{note}%
+  \newunit\newblock
+  \printlist{organization}%
+  \setunit{\adddot\addspace}%
+  \iftoggle{bbx:eprint}
+    {\usebibmacro{eprint}}
+    {}%
+  \setunit{\adddot\addspace}%
+  %\printtext[parens]{\usebibmacro{date}}% ELIMINDADO
+  %\newunit\newblock                     % ELIMINDADO
+  \usebibmacro{url+urldate}%
+  \setunit{\adddot\addspace}%
+  \usebibmacro{addendum+pubstate}%
+  \setunit{\bibpagerefpunct}\newblock
+  \usebibmacro{pageref}%
+  \newunit\newblock
+  \iftoggle{bbx:related}
+    {\usebibmacro{related:init}%
+     \usebibmacro{related}}
+    {}%
+  \usebibmacro{finentry}}
+
+
+
+
+
+%\usepackage{showframe}% http://ctan.org/pkg/showframe
+
+\input{template/packages.tex}
+\input{template/toc}
+\input{template/sections_config.tex}
+\input{template/config} 
+
+\input{template/celdas.tex}
+\input{parametros.tex}
+ 
+%------------ Inicia Documento -------------------%
+\begin{document} 
+
+\pagenumbering{arabic}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%    fancy header. 
+%    paquestes usados: fancyhdr y xcolor
+%    Nota paquete toclof: importarlo con 
+%       la opcion titles para que no intervenga 
+%       en la definicion de las cabeceras de 
+%       la tabla de contenido, figuras, etc
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%────────────────────────────────────────────────────────────────────────────────────────┐
+% formato de la cabecera (Header)          
+\renewcommand{\headrulewidth}{1pt}% 2pt header rule   
+% linea de cabecera de color naranja                    
+\renewcommand{\headrule}{\hbox to\headwidth{% 
+    \color{orange}\leaders\hrule height \headrulewidth\hfill}}
+
+\definecolor{fgheader}{gray}{.5}
+
+\fancyhead{} % clear all header fields
+\fancyhead[L]{\fontsize{10}{12} \selectfont \textcolor{gray} {\tituloencabezado} }
+\fancyhead[R]{\textcolor{gray}\thepage}
+\fancyfoot{} % clear all footer fields
+\setlength{\headheight}{24.64995pt}
+%────────────────────────────────────────────────────────────────────────────────────────┘
+
+
+% [doc-434] documento en ingles porque el español genera errores con el modulo /includeGraphic
+% solo se cambia a español en en las referencias para que los meses y las abreviaciones aparezcan en español
+\selectlanguage{english}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  oculta las cabeceras
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\pagestyle{empty}  % oculta las cabeceras  (header)
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%    Potadas
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\input{templatepages/paginaportada}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% cambia la fuente a 10 pt
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\footnotesize
+\input{templatepages/paginalegal}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  regresa la fuente a 12 pt
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\normalsize
+
+\input{templatepages/paginadedicatoria}
+
+% comentado 2022-11-04
+%\thispagestyle{empty}
+%\cleardoublepage{}
+
+
+% tabla de contenido
+\tableofcontents{}
+\cleardoublepage{}
+
+% lista de tablas
+\listoftables
+\cleardoublepage{}
+
+%lista de figuras
+\listoffigures
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  RESUMEN
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\clearpage %or \cleardoublepage          %──────────────────────────────────────────────┐
+\phantomsection                          %  seccion sin numeracion y listado en la      │
+\addcontentsline{toc}{section}{RESUMEN}  %  tabla de contenido                          │
+\section*{RESUMEN}                       % (https://en.wikibooks.org/wiki/LaTeX/Document_Structure#Section_numbering)
+                                         %───────────────────────────────────────────
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  muestra de nuevo las cabeceras
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\pagestyle{fancy} %  muestra la cabecera (header)
+
+
+\input{sections/resumen.tex} 
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  ABSTRACT 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\clearpage %or \cleardoublepage             %───────────────────────────────────────────
+\phantomsection                             %  seccion sin numeracion y listado en la 
+\addcontentsline{toc}{section}{ABSTRACT}    %  tabla de contenido 
+\section*{ABSTRACT}                         % (https://en.wikibooks.org/wiki/LaTeX/Document_Structure#Section_numbering)  
+                                            %───────────────────────────────────────────
+
+\input{sections/abstract.tex}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%  INTRODUCCION 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\setcounter{secnumdepth}{5}  
+\section{INTRODUCCIÓN}
+\input{sections/introduction.tex}
+
+\section{PLANTEAMIENTO DEL PROBLEMA}
+\input{sections/plante.tex}
+
+\section{JUSTIFICACIÓN}
+\input{sections/justificacion.tex}
+
+%salto de pagina. TODO QUITAR
+\noindent \begin{center}
+\cleardoublepage{}
+\par\end{center}
+
+ 
+
+\section{OBJETIVOS}
+
+\input{sections/objetivos.tex}
+\input{sections/objetivo_general.tex}
+\input{sections/objetivos_especificos.tex}
+
+
+\section{PROBLEMA DE INVESTIGACIÓN}
+\input{sections/problema_investigacion.tex}
+
+\section{HIPÓTESIS}
+\input{sections/hipotesis.tex}
+
+\section{MARCO TEÓRICO}
+\input{sections/marco_teorico.tex}
+
+\section{METODOLOGÍA}
+\input{sections/metodologia.tex}
+
+\section{RESULTADOS}
+\input{sections/resultados.tex}
+
+\section{DISCUSIÓN}
+\input{sections/discusion.tex}
+
+
+\section{CONCLUSIONES}
+\input{sections/conclusiones.tex}
+
+\section{RECOMENDACIONES}
+\input{sections/recomendaciones.tex}
+
+% salto de pagina
+\noindent \begin{center}
+\cleardoublepage{}
+\par\end{center}
+
+% publicar:  comentar layout 
+\layout*
+\noindent \begin{center}
+\cleardoublepage{}
+\par\end{center}
+\medskip
+
+
+% ver [doc-434]. se cambia a español para que los meses y las abreviacion sean en español. 
+\selectlanguage{spanish}
+% necesario porque el paquete  titlesec cambiar comportamientos internos de las secciones.
+% Por tal motivo el anchor de los hyperref estan corruptos. Es necesario agregar
+% Phantomsection antes de una adicion manual a la tabla de contenido [heading=bibintoc]
+\phantomsection 
+\printbibliography[heading=bibintoc, title={REFERENCIAS}]
+% ver [doc-434]. se coloca de nuevo en ingles. 
+\selectlanguage{english}
+
+\end{document}
+
+
+% TODO: parametro para texto de dedicatoria  [        ]   0% 
+% TODO: arreglar  warnings en TOC enlazable  [========] 100% ok
+% TODO: ejemplo de graficos                  [========] 100% ok
+% TODO: ejemplo de tablas                    [========] 100% ok
+% TODO: keywords en el abstract              [========] 100% ok
+% TODO: Varios autores en paramteros.tex     [========] 100% ok
+% TODO: parametros.tex                       [=====   ]  50%
+% TODO: fechas de las referencias en español [========] 100% ok
+% TODO: referencias en mayuscula             [========] 100% ok
+% TODO: Planteamiento del problema           [========] 100% ok 
+% TODO: referencias en la tabla de contenido [========] 100% ok
+
+

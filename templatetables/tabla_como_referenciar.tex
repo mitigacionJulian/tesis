@@ -1,0 +1,40 @@
+\newcommand{\tablereferenciados}{
+ \autorescitacion. “\titulo”, \grado, \programa, Universidad de San Buenaventura \sede, \anio.
+}
+
+\renewcommand{\celdados}{ \multicolumn{2}{p{0.625\textwidth} }{\autorescitaciontexto. [1] }  }
+\renewcommand{\celdacin}{  \multirow[t]{5}{0.68\textwidth}{  { \tablereferenciados}  }   }
+
+\newcommand{\tablereferencias}{ Referencia/Reference }
+
+
+\begin{tabular}
+{       >{\centering}p{0.20\textwidth}     p{0.025\textwidth}    p{0.68\textwidth} }
+\arrayrulecolor{orange}\toprule
+Citar/How to cite         &                \celdados  \\ 
+\cline{1-1}
+\tablereferencias         & [1]          &\celdacin\\ 
+                          &              &            \\
+                          &              &            \\
+Estilo/Style:             &              &            \\ 
+IEEE (2014)               &              &            \\
+\bottomrule
+\end{tabular}
+
+
+%\begin{tabular}{P{0.20\textwidth}p{0.74\textwidth}}
+%  \noalign{\global\arrayrulewidth=0.4pt}
+%  \arrayrulecolor{orange}\hline
+%Citar/How to cite & \autorescitaciontexto. [1]\\
+%\arrayrulecolor{orange}\hline
+%
+%Referencia/Reference\newline \newline
+%Estilo/Style:\newline
+%IEEE (2014)\newline
+%&
+%\begin{mylist} 
+%\item[{[}1{]}] \autorescitacion. “Título” (Seleccione modalidad de grado nombre del programa académico), nombre de la facultad, Universidad de San Buenaventura Colombia, Ciudad, Año
+%\end{mylist}\\ 
+%
+%\arrayrulecolor{orange}\hline
+%\end{tabular}
