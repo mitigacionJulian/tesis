@@ -6,7 +6,7 @@
 \usepackage{fontspec} % quite [no-math] si presenta error en compilacion
 \setmainfont{Times New Roman}
 \setlength{\parindent}{1.2cm} % sangria de 1.2cm en la primera linea del parrafo
-%\usepackage[utf8]{inputenc} 
+%\usepackage[utf8]{inputenc}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %%%% evita que coloque guiones al justificar
@@ -52,7 +52,8 @@
 % paquete para referencias
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \usepackage[style=ieee]{biblatex}
-\addbibresource{bibs/sample.bib}   
+\addbibresource{bibs/sample.bib}
+
 
 
 
@@ -346,8 +347,9 @@
 % necesario porque el paquete  titlesec cambiar comportamientos internos de las secciones.
 % Por tal motivo el anchor de los hyperref estan corruptos. Es necesario agregar
 % Phantomsection antes de una adicion manual a la tabla de contenido [heading=bibintoc]
-\phantomsection 
+\phantomsection
 \printbibliography[heading=bibintoc, title={REFERENCIAS}]
+
 % ver [doc-434]. se coloca de nuevo en ingles. 
 \selectlanguage{english}
 
