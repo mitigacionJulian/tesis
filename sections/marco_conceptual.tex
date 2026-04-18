@@ -1,1 +1,74 @@
-\shortlorem
+\subsection{Alcance del marco y articulación con los objetivos}
+El desarrollo de un instrumento virtual geoespacial orientado al análisis de la accidentalidad vial implica abordar el problema desde una perspectiva interdisciplinaria en la que convergen la ingeniería de software, los sistemas de información geográfica, la ciencia de datos y la analítica de indicadores. Esta integración permite transformar registros dispersos en información estructurada y generar conocimiento útil para la toma de decisiones en seguridad vial. El sistema propuesto no se limita a la recolección de datos: actúa como \textbf{plataforma analítica} capaz de representar, procesar y visualizar patrones espaciales y temporales, en línea con enfoques que destacan la integración entre analítica de datos y georreferenciación para mejorar la gestión del riesgo vial \cite{who2023}, \cite{chen2021}.
+
+El objetivo general plantea un instrumento que permita \textbf{visualizar, analizar y segmentar} información de accidentalidad, apoyado en modelos estadísticos para decisiones en seguridad vial. Los objetivos específicos exigen: \textbf{(i)} arquitectura y modelo de datos geoespacial; \textbf{(ii)} módulos de análisis estadístico para índices por comuna, franja horaria, tipo de vehículo y gravedad; \textbf{(iii)} tablero de monitoreo y diagnóstico; y \textbf{(iv)} validación técnica del desempeño y la calidad del software. En consecuencia, el marco conceptual articula: \textbf{ingeniería de software aplicada} (sistema monolítico robusto), \textbf{SIG y bases de datos espaciales, ciencia de datos y analítica descriptiva/diagnóstica} (con proyección hacia lo predictivo según alcance), y medición territorial (indicadores, agregaciones espacio-temporales, priorización). Esta lectura es coherente con los antecedentes del documento principal sobre mapas de calor, focalización territorial y gobernanza del dato.
+
+\subsection{Desarrollo de software: arquitectura monolítica con Django}
+En ingeniería de software, la \textbf{arquitectura} condiciona mantenibilidad, despliegue y seguridad. Frente a un frontend/backend totalmente desacoplados, el \textbf{patrón monolítico} concentra en un único proceso la autenticación, las vistas o plantillas, la \textbf{API REST} (Django REST Framework), la lógica de negocio y el acceso a datos. Conviene en contextos de alcance académico controlado: reduce la complejidad de despliegue, facilita la trazabilidad de requisitos y acerca los módulos analíticos y geoespaciales en un solo repositorio de código. Investigación aplicada a sistemas urbanos y orientados a datos sugiere que la elección arquitectónica influye en escalabilidad, seguridad y sostenibilidad de la plataforma \cite{al2020}.
+
+El framework Django estructura el proyecto en capas compatibles con el patrón \textbf{modelo–vista–plantilla} (MVT, variante cercana al espíritu MVC), favoreciendo separación de responsabilidades y mantenibilidad. \textbf{Django REST Framework} expone servicios para interfaces interactivas (cliente React u otras) sin abandonar el despliegue monolítico. GeoDjango y PostgreSQL/PostGIS permiten geometrías y consultas espaciales alineadas con mapas de calor y análisis por proximidad. La calidad se refuerza con pruebas automatizadas (pytest, pytest-django), coherente con el objetivo específico de validar desempeño, seguridad y escalabilidad mediante pruebas técnicas y revisiones de consultas.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.5\linewidth]{"images/Arquitectura monolítica.drawio"}
+	\caption{Arquitectura monolítica con Django}
+	\label{fig:arquitectura-monolitica}
+\end{figure}
+
+
+\subsection{Sistemas de información geográficos y análisis espacial urbano}
+Los \textbf{SIG} integran datos georreferenciados con atributos descriptivos (tipo de incidente, gravedad, franja horaria, entre otros), lo que permite estudiar \textbf{patrones territoriales y zonas críticas}. La literatura aplicada sostiene con frecuencia que los siniestros no se distribuyen al azar, sino que se concentran en corredores e intersecciones asociados a infraestructura, flujo y comportamiento. Técnicas como la \textbf{estimación de densidad por núcleo} (KDE) y el \textbf{análisis de agrupación espacial} (clustering) se han utilizado para identificar puntos calientes y priorizar intervenciones; en la literatura latinoamericana reciente, los SIG y los estudios de zonas críticas aportan marcos aplicables a ese tipo de análisis \cite{xu2022}, \cite{li2023}.
+
+\textbf{PostGIS} añade tipos y operadores espaciales (puntos, distancias, índices GIST/GIN según el diseño); \textbf{GeoDjango} acerca esa capacidad al modelo de dominio de la aplicación. En el cliente, Leaflet, MapLibre u homólogos materializan capas (calor, marcadores, leyendas de riesgo) a partir de agregaciones y consultas parametrizables. Los antecedentes de la memoria sobre Medellín y estudios regionales refuerzan que la visualización geoespacial es puente entre registro administrativo y decisión territorial.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\linewidth]{"images/Flujo de datos geoespacial.drawio"}
+	\caption{Flujo de datos geoespacial}
+	\label{fig:flujo-de-datos-geoespacial}
+\end{figure}
+
+
+\subsection{Ciencia de datos, indicadores y tipos de modelos}La ciencia de datos articula estadística, computación y dominio para convertir registros operativos en evidencia útil. En este proyecto el flujo incluye ingestión desde hojas de cálculo, exploración y limpieza con pandas y NumPy, asociación a catálogos normalizados, carga a la base y, cuando aplique, análisis vectorial con GeoPandas. La solidez del análisis depende de la calidad y estructura de los datos y de su integración con contexto (territorio, temporalidad, gravedad)\cite{provost2022}.
+
+\subsubsection{Indicadores y analítica descriptiva / diagnóstica}
+La medición de la siniestralidad se expresa en indicadores temporales, espaciales y sociodemográficos (frecuencia, gravedad, perfiles de víctima). La combinación de frecuencia, severidad y tendencia permite índices compuestos orientados a la priorización de controles viales, en sintonía con enfoques que usan criterios múltiples para asignar recursos en políticas de seguridad vial \cite{wegman2020}. En el proyecto, el índice de prioridad de control vial (por vía y por punto crítico) es una aplicación concreta de esa lógica.\\
+Metodológicamente, el trabajo se ubica primero en analítica descriptiva y diagnóstica (“qué ocurrió” y “por qué”, en términos de datos históricos y técnicas estadísticas básicas). La literatura de madurez analítica sugiere consolidar estas etapas antes de avanzar hacia modelos predictivos o prescriptivos, que exigen mayor volumen, validación rigurosa y cuidados éticos \cite{provost2022}.
+
+\subsubsection{Familias de modelos (exactos, empíricos, predictivos)}
+\begin{itemize}[]
+	\item \textbf{Formulaciones explícitas} (tasas, promedios, ponderaciones en SQL o servicios Django) actúan como modelos de forma cerrada a escala de indicador, útiles en tableros.
+	\item \textbf{Modelos empíricos y estadísticos} se apoyan en historia operativa: agregaciones multidimensionales, comparación de periodos e índices de riesgo/prioridad calibrados con criterio institucional (pesos y umbrales revisables).
+\end{itemize}
+Técnicas espaciales como \textbf{KDE} o agrupaciones pueden apoyar la identificación de hotspots; su uso debe alinearse con el volumen de datos y la resolución territorial disponible \cite{xu2022}, \cite{li2023}.
+\begin{itemize}[]
+	\item \textbf{Modelos predictivos} (por ejemplo, aprendizaje supervisado o series temporales con scikit-learn u otras herramientas) pueden alinearse con el objetivo general en fases posteriores, documentando supuestos, métricas y límites de uso en política pública.
+\end{itemize}
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.5\linewidth]{"images/Arquitectura monolítica-Página-3.drawio"}
+	\caption{Taxonomía de analítica}
+	\label{fig:arquitectura-monolitica-pagina-3}
+\end{figure}
+
+
+\subsection{Modelado de datos para analítica: estrella y copo de nieve}
+En inteligencia de negocios y almacenes analíticos, \textbf{el modelo estrella} centraliza métricas en una tabla de hechos (p. ej., incidentes) y la rodea de dimensiones (tiempo, ubicación, tipo de evento). \textbf{El modelo copo de nieve} normaliza dimensiones en subdimensiones, reduciendo redundancia a cambio de consultas más complejas. La selección depende del equilibrio entre rendimiento, escalabilidad y mantenibilidad \cite{al2020}.
+
+En este trabajo el \textbf{esquema operacional} en PostgreSQL sigue un \textbf{modelo relacional normalizado} (catálogos, incidente, victima, vínculos geográficos), cercano al espíritu de un copo de nieve en las dimensiones de catálogo, mientras que las consultas tipo \textbf{OLAP} (conteos por fechas, comunas, clases) simulan hechos y dimensiones sin imponer un almacén separado: es un compromiso habitual en sistemas transaccionales con reporting pesado. Si en el futuro se materializaran vistas o tableros en un almacén dedicado, el modelo estrella sería la referencia conceptual para exponer KPIs.
+
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=0.7\linewidth]{"images/Arquitectura monolítica-Página-4.drawio"}
+	\caption{Modelo estrella vs copo de nieve}
+	\label{fig:arquitectura-monolitica-pagina-4}
+\end{figure}
+
+
+\subsection{Visualización analítica, tableros y experiencia de usuario}
+Los dashboards integran gráficos, mapas y tablas dinámicas bajo filtros compartidos (fechas, territorio, clase, gravedad). La analítica visual es un componente de sistemas de apoyo a la decisión en entornos urbanos, donde la información es abundante y heterogénea \cite{chen2021}. En seguridad vial, \textbf{mapas de calor, rankings de vías, puntos críticos y series temporales} permiten detectar patrones y focalizar intervenciones.
+Los contratos de \textbf{API} deben conservar la misma semántica de indicadores aun en fases con datos de demostración, para no desalinear el modelo mental de autoridades u otros usuarios.
+
+\subsection{Calidad y gobernanza de los datos}
+La efectividad de la plataforma depende de la calidad del dato: estandarización, consistencia, actualización y trazabilidad desde la fuente hasta el indicador expuesto. La revisión de literatura y antecedentes en la memoria enfatiza que, sin indicadores estructurados y gobernanza, los sistemas analíticos difícilmente sostienen políticas de seguridad vial basadas en evidencia \cite{who2023}. En el proyecto, la gobernanza se traduce en procesos de validación, limpieza, normalización a catálogos y diseño de integridad referencial en la base, de modo que el tablero se consolide como infraestructura de conocimiento y no solo como reportes aislados.
