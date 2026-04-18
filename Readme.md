@@ -59,3 +59,7 @@ opciones > configurar TexStudio... > órdenes
 # errrores de compilación
 
 En main.text cambie `\usepackage[no-math]{fontspec}` por `\usepackage{fontspec}`
+
+# Configurar compilador
+
+El compilador debe esta en LuaLaTex y la bibliografía en Biber.
