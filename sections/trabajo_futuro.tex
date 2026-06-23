@@ -1,1 +1,49 @@
-\shortlorem
+\subsection{Ampliación de datos y gobernanza de la información}
+
+La versión actual de ViaData — Medellín opera sobre un periodo Mede aproximado de 2014--2021 y un flujo ETL \textbf{manual pero reproducible}. Como línea prioritaria de trabajo futuro se plantea la \textbf{ingesta automática o programada} de nuevas versiones del conjunto Mede, con validación de esquema, alertas de calidad y versionado de cargas. Complementariamente, la \textbf{extensión temporal} del repositorio permitiría recalibrar modelos predictivos, reevaluar hold-out y contrastar tendencias post-2021, condicionado a la disponibilidad y consistencia de datos abiertos actualizados por la institución \cite{atancuri2024,oviedo2025}.
+
+En paralelo, conviene fortalecer la gobernanza del dato: trazabilidad de transformaciones, metadatos de cada carga y documentación de cambios en catálogos o definiciones operativas, de modo que las proyecciones futuras mantengan comparabilidad con las evaluaciones ya cerradas.
+
+\subsection{Indicadores y análisis geoespacial omitidos}
+
+Durante el cronograma del proyecto se omitieron deliberadamente funcionalidades ligadas a catálogos que Mede no alimenta en la versión cargada:
+
+\begin{itemize}
+	\item \textbf{P11 — ranking por vía o punto crítico}, por ausencia de registros en tablas \texttt{via} y \texttt{punto\_critico}.
+	\item \textbf{G04 — análisis por buffer de punto crítico}, mientras la tabla de puntos críticos permanezca vacía.
+	\item \textbf{G05 — filtro por bounding box en mapa}, considerado redundante frente a filtros por comuna y barrio.
+\end{itemize}
+
+Una extensión natural del sistema consiste en incorporar estos indicadores \textbf{si la fuente institucional publica geometrías o identificadores de corredores e intersecciones} de forma estructurada, lo que habilitaría focalizar intervenciones en glorietas, tramos viales o nodos de alta siniestralidad ---línea de investigación coherente con estudios de puntos críticos en Medellín \cite{viveros2022,xu2022}.
+
+Asimismo, profundizar el contraste entre modo \textit{registro} y modo \textit{espacial} (indicador G03) con reportes periódicos de calidad cartográfica aportaría evidencia para mejorar la georreferenciación en la captura administrativa.
+
+\subsection{Modelos predictivos y evaluación}
+
+La evaluación cerrada priorizó modelos \textbf{transparentes y comparables} (OLS, estacional, Poisson, media móvil, $\mu \pm 3\sigma$, ARIMA/SARIMA) y demostró que el desempeño depende del escenario analítico. Trabajo futuro en esta línea podría incluir:
+
+\begin{itemize}
+	\item \textbf{Modelos jerárquicos o bayesianos} para series territoriales con pocos datos por barrio, mitigando la limitación actual en que 220 de 270 barrios carecen de proyección individual en §3.
+	\item \textbf{P15 — aprendizaje automático espacial} (por ejemplo, gradient boosting o modelos de conteo espacio-temporales), evaluados siempre con hold-out y sin sustituir la trazabilidad de las formulaciones actuales.
+	\item \textbf{Variables exógenas} (meteorología, intervenciones viales, cambios normativos) para acercar las proyecciones a escenarios contrafactuales, sin pretender inferencia causal plena desde el registro administrativo.
+	\item \textbf{Reevaluación periódica} del ranking de modelos al incorporar nuevos meses, automatizando los scripts \texttt{llenar\_evaluacion\_seccion*.py} en un pipeline de CI.
+\end{itemize}
+
+Se mantiene como criterio que cualquier modelo nuevo deba superar o complementar el protocolo MAPE hold-out $\leq 20\,\%$ antes de adoptarse como predeterminado en producción.
+
+\subsection{Plataforma, despliegue y adopción institucional}
+
+En el plano de ingeniería de software, extensiones viables incluyen:
+
+\begin{itemize}
+	\item \textbf{Generación de PDF en servidor} (Puppeteer, WeasyPrint u equivalente) como alternativa a la impresión nativa del navegador.
+	\item \textbf{Activación del rol autoridad} reservado en el esquema de permisos, con flujos de aprobación o publicación de reportes oficiales.
+	\item \textbf{Integración con tableros institucionales} o APIs de movilidad urbana, si la entidad dispone de canales de intercambio seguros.
+	\item \textbf{Pruebas de carga y despliegue productivo} (contenedorización, respaldos, monitoreo) que exceden el alcance de validación con \texttt{pytest} del trabajo de grado.
+\end{itemize}
+
+El asistente conversacional basado en Gemini podría evolucionar hacia un catálogo ampliado de herramientas, auditoría de consultas y, en entornos institucionales, despliegue con políticas de privacidad y retención distintas al tier gratuito actual.
+
+\subsection{Síntesis de prioridades}
+
+En síntesis, las prioridades de trabajo futuro se ordenan así: \textbf{(1)} actualizar y automatizar el dato; \textbf{(2)} incorporar indicadores viales y puntos críticos si la fuente lo permite; \textbf{(3)} ampliar el repertorio predictivo con evaluación hold-out rigurosa, especialmente en barrios; y \textbf{(4)} madurar el despliegue y la adopción institucional del instrumento. Estas líneas prolongan el equilibrio alcanzado en ViaData — Medellín entre utilidad exploratoria, transparencia metodológica y reconocimiento explícito de limitaciones \cite{lugo2025,monar2025}.
