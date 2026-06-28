@@ -14,7 +14,7 @@ Un hallazgo relevante de la evaluación es que \textbf{no existe un modelo únic
 
 La Tabla~\ref{tab:resultados-seccion1-escenarios} lo ilustra con claridad. SARIMA obtiene el mejor hold-out para incidentes a nivel ciudad cuando hay al menos 24 meses útiles y se excluye COVID del ajuste (12,62\,\% MAPE). Sin embargo, para víctimas totales gana la media móvil (14,67\,\%), para víctimas fatales el estacional (19,67\,\%), en Castilla la media móvil (8,42\,\%) y en atropellos Poisson (11,64\,\%). Cuando COVID permanece en el ajuste (escenario F), SARIMA se degrada a 32,87\,\% de MAPE hold-out, mientras modelos más simples conservan errores menores.
 
-Este patrón tiene implicaciones metodológicas y prácticas. Las Figuras~\ref{fig:captura-sarima} y \ref{fig:captura-estacional} del capítulo de resultados muestran, bajo idénticos filtros (escenario A), cómo un modelo con mejor ajuste in-sample puede perder frente a SARIMA en la prueba reservada:
+Este patrón tiene implicaciones metodológicas y prácticas. Las Figuras~\ref{fig:captura-sarima-config} y \ref{fig:captura-estacional} del capítulo de resultados muestran, bajo idénticos filtros (escenario A), cómo un modelo con mejor ajuste in-sample puede perder frente a SARIMA en la prueba reservada:
 
 \begin{itemize}
 	\item \textbf{Selección condicionada:} elegir modelo solo por R$^2$ o MAPE in-sample puede sobrevalorar Poisson y estacional en §1 (8,3--8,4\,\% in-sample frente a 22\,\% hold-out), ilustrando el riesgo de sobreajuste que la validación reservada mitiga.

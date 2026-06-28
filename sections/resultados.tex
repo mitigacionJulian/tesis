@@ -34,7 +34,7 @@ El indicador \textbf{G03} cuantifica la coincidencia entre el territorio declara
 
 \subsection{Resultados descriptivos y geoespaciales}
 
-El tablero y el mapa materializan la analítica descriptiva y diagnóstica sobre el periodo y los filtros seleccionados por el usuario. La Figura~\ref{fig:captura-tablero} muestra los KPIs del escenario de referencia (ciudad completa, 2018--2021): \textbf{75\,088} incidentes ($-2{,}69\,\%$ frente al año anterior), \textbf{108\,541} víctimas y \textbf{703} fatales ($+1{,}01\,\%$). Entre los hallazgos recurrentes destacan:
+El tablero y el mapa materializan la analítica descriptiva y diagnóstica sobre el periodo y los filtros seleccionados por el usuario. La Figura~\ref{fig:captura-tablero} resume los KPIs del escenario de referencia (ciudad completa, 2018--2021): \textbf{75\,088} incidentes ($-2{,}69\,\%$ frente al año anterior), \textbf{108\,541} víctimas y \textbf{703} fatales ($+1{,}01\,\%$). Entre los hallazgos recurrentes destacan:
 
 \begin{itemize}
 	\item \textbf{Concentración territorial:} La Candelaria encabeza rankings por volumen en múltiples cortes (75\,088 incidentes ciudad; 12\,921 en La Candelaria en escenario A de prioridad).
@@ -43,14 +43,30 @@ El tablero y el mapa materializan la analítica descriptiva y diagnóstica sobre
 	\item \textbf{Calidad espacial:} El modo registro frente al modo espacial produce rankings comparables en comunas (Spearman índice$\leftrightarrow$frecuencia $\approx 0{,}86$ en modo espacial), útil para discutir la confiabilidad cartográfica del dato \cite{monar2025}.
 \end{itemize}
 
+Las Figuras~\ref{fig:captura-tablero}--\ref{fig:captura-tablero-evolucion} muestran el tablero bajo el escenario de referencia: tarjetas de KPIs con variación frente al año anterior, tabla de resumen estadístico y evolución mensual comparada con el mismo mes del año previo (barras apiladas incidentes/víctimas).
+
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.92\linewidth]{images/captura_tablero.png}
-	\caption{Tablero de indicadores — KPIs y resumen estadístico (ciudad completa, 2018--2021)}
+	\includegraphics[width=0.92\linewidth]{images/captura_tablero_kpis.png}
+	\caption{Tablero — KPIs del periodo (ciudad completa, 2018--2021)}
 	\label{fig:captura-tablero}
 \end{figure}
 
-La Figura~\ref{fig:captura-mapa-densidad} ilustra la capa de \textbf{densidad territorial} (G01--G02) en el mapa analítico para el periodo 2021-01-01 — 2021-09-30, con coroplética por comunas. La concentración en el valle urbano central ---La Candelaria, Laureles-Estadio, Robledo y corredores adyacentes--- es coherente con los rankings del tablero y del índice P05.
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.92\linewidth]{images/captura_tablero_resumen.png}
+	\caption{Tablero — resumen estadístico actual vs.\ periodo anterior}
+	\label{fig:captura-tablero-resumen}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.95\linewidth]{images/captura_tablero_evolucion.png}
+	\caption{Tablero — evolución mensual de incidentes y víctimas (2018--2021; caída visible en mar--ago 2020)}
+	\label{fig:captura-tablero-evolucion}
+\end{figure}
+
+La Figura~\ref{fig:captura-mapa-densidad} ilustra la capa de \textbf{densidad territorial} (G01--G02) en el mapa analítico para el periodo 2021-01-01 — 2021-09-30, con coroplética por comunas. La Figura~\ref{fig:captura-mapa-candelaria} detalla La Candelaria: densidad 1\,675,6 incidentes/km$^2$ y ratio G02 de \textbf{8,37$\times$} frente al promedio urbano, coherente con su liderazgo en rankings y en el índice P05.
 
 \begin{figure}[H]
 	\centering
@@ -59,15 +75,75 @@ La Figura~\ref{fig:captura-mapa-densidad} ilustra la capa de \textbf{densidad te
 	\label{fig:captura-mapa-densidad}
 \end{figure}
 
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.88\linewidth]{images/captura_mapa_candelaria.png}
+	\caption{Mapa analítico — detalle La Candelaria (G01--G02, ratio 8,37$\times$ vs.\ ciudad)}
+	\label{fig:captura-mapa-candelaria}
+\end{figure}
+
 Estos resultados alimentan la priorización territorial (§2) y contextualizan las proyecciones del módulo predictivo.
 
-\subsection{Evaluación del módulo de predicciones}
+\subsection{Caso de estudio principal — escenario A}
+
+Para documentar la \textbf{efectividad del sistema} bajo un mismo conjunto de filtros, se consolidó un \textbf{caso de estudio} reproducible a partir de los CSV de evaluación y la matriz \texttt{MATRIZ\_ESCENARIOS\_CASO\_ESTUDIO.md} (generada el 27-06-2026). El escenario \textbf{A} concentra la configuración de referencia en producción y sustenta la sustentación a nivel municipal.
+
+\begin{table}[H]
+	\centering
+	\caption{Configuración del caso de estudio — escenario A}
+	\label{tab:caso-estudio-config}
+	\small
+	\begin{tabularx}{\linewidth}{@{}l X@{}}
+		\toprule
+		\textbf{Parámetro} & \textbf{Valor} \\
+		\midrule
+		Identificador & A — ciudad completa, referencia principal \\
+		Periodo & 2018-01-01 — 2021-09-30 \\
+		Variable y territorio & Incidentes; modo registro Mede \\
+		Exclusión COVID & Mar–ago 2020 excluidos del ajuste \\
+		Horizonte / hold-out & 3 meses de proyección; 3 meses reservados (§1 y §4) \\
+		Volumen en periodo & 75\,088 incidentes; 22 comunas elegibles; $\approx$39 meses de ajuste \\
+		Propósito & Evaluar comparabilidad multi-modelo y decisiones por bloque analítico \\
+		\bottomrule
+	\end{tabularx}
+\end{table}
+
+La Figura~\ref{fig:captura-caso-estudio-filtros} reproduce en la interfaz los filtros compartidos del módulo de predicciones que materializan el escenario A.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.92\linewidth]{images/captura_caso_estudio_filtros.png}
+	\caption{Módulo de predicciones — filtros compartidos del caso de estudio A (2018--2021, exclusión COVID)}
+	\label{fig:captura-caso-estudio-filtros}
+\end{figure}
+
+La Tabla~\ref{tab:caso-estudio-metricas} resume las métricas transversales empleadas en el tablero de predicciones. En §2 no se comparan modelos: el índice P05 es determinista (pesos fijos y delta de promedios mensuales).
+
+\begin{table}[H]
+	\centering
+	\caption{Métricas del caso de estudio por bloque analítico}
+	\label{tab:caso-estudio-metricas}
+	\small
+	\begin{tabularx}{\linewidth}{@{}l X@{}}
+		\toprule
+		\textbf{Bloque} & \textbf{Métrica principal de efectividad} \\
+		\midrule
+		§1 Proyección mensual & MAPE hold-out (precisión est. $\approx 100\,\% - \mathrm{MAPE}$; umbral $\leq 20\,\%$) \\
+		§2 Prioridad P05 & Spearman índice$\leftrightarrow$frecuencia; utilidad del ranking \\
+		§3 Carga territorial & Spearman carga$\leftrightarrow$volumen; MAPE mediano hold-out por comuna \\
+		§4 Proporción fatales & MAPE hold-out sobre \% mensual \\
+		§5 Patrones P12/P13 & Spearman patrón observado$\leftrightarrow$proyectado; estabilidad del líder temporal \\
+		\bottomrule
+	\end{tabularx}
+\end{table}
+
+\subsection{Evaluación del módulo de predicciones en el caso de estudio}
 
 La evaluación siguió el protocolo metodológico: hold-out de 3 meses, exclusión por defecto de mar--ago 2020 en el ajuste y umbral exploratorio de MAPE hold-out $\leq 20\,\%$. Las tablas siguientes sintetizan los hallazgos principales; el detalle completo permanece en los CSV de \texttt{Fuentes\_viaData/}.
 
 \subsubsection{§1 — Proyección mensual}
 
-En el escenario A (ciudad completa, incidentes, 2018--2021), la Tabla~\ref{tab:resultados-seccion1-a} compara los siete modelos evaluados. \textbf{SARIMA}$(2,1,3)(1,1,1)_{12}$ obtiene el menor MAPE hold-out (\textbf{12,62\,\%}, precisión estimada $\approx 87{,}4\,\%$), por debajo de Poisson y estacional pese a un MAPE in-sample más alto en estos últimos. Este resultado confirma que el criterio hold-out evita sobreajuste: modelos que ajustan bien in-sample no necesariamente generalizan mejor.
+En el escenario A (ciudad completa, incidentes, 2018--2021), la Tabla~\ref{tab:resultados-seccion1-a} compara los siete modelos evaluados. \textbf{SARIMA}$(2,1,3)(1,1,1)_{12}$ obtiene el menor MAPE hold-out (\textbf{12,62\,\%}, precisión estimada $\approx 87{,}4\,\%$); \textbf{Poisson} registra el peor hold-out (\textbf{22,54\,\%}). Poisson y estacional muestran MAPE in-sample $\approx 8\,\%$ pero superan 22\,\% en la prueba reservada: no deben elegirse solo por el ajuste al gráfico. Este resultado confirma que el criterio hold-out evita sobreajuste.
 
 \begin{table}[H]
 	\centering
@@ -112,13 +188,15 @@ La Tabla~\ref{tab:resultados-seccion1-escenarios} resume el mejor modelo por esc
 
 \textbf{Decisión adoptada:} SARIMA$(2,1,3)(1,1,1)_{12}$ para incidentes ciudad; media móvil de tres meses como alternativa interpretable.
 
-Las Figuras~\ref{fig:captura-sarima} y \ref{fig:captura-estacional} muestran la misma configuración de filtros en la interfaz (2018--2021, incidentes ciudad, exclusión mar--ago 2020, hold-out 3 meses) con dos modelos distintos. SARIMA exhibe MAPE hold-out de 12,62\,\% ($\approx 87{,}4\,\%$ de precisión estimada) pese a R$^2$ in-sample bajo; el estacional mejora el ajuste histórico (MAPE 8,38\,\%) pero pierde en la prueba reservada (22,44\,\%), ilustrando por qué la plataforma compara modelos bajo el mismo escenario antes de adoptar uno por defecto.
+Las Figuras~\ref{fig:captura-sarima-config} documentan §1 con SARIMA$(2,1,3)(1,1,1)_{12}$ bajo el escenario A: parámetros y bondad de ajuste in-sample (MAPE 13,14\,\%), serie observada vs.\ extrapolación (incluido el valle COVID visible en observados pero no capturado por el ajuste excluido) y prueba hold-out jul--sep 2021 (MAPE 12,62\,\%; precisión $\approx 87{,}4\,\%$). La Figura~\ref{fig:captura-estacional} contrasta el modelo estacional: mejor ajuste histórico (MAPE 8,38\,\%) pero hold-out 22,44\,\%, ilustrando por qué la plataforma compara modelos bajo el mismo escenario antes de adoptar uno por defecto.
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.92\linewidth]{images/captura_predicciones_sarima.png}
-	\caption{Proyección mensual §1 — SARIMA$(2,1,3)(1,1,1)_{12}$, escenario A (hold-out 3 meses)}
-	\label{fig:captura-sarima}
+	\includegraphics[width=0.92\linewidth]{images/captura_proyeccion_sarima_config.png}\\[0.4em]
+	\includegraphics[width=0.92\linewidth]{images/captura_proyeccion_sarima_serie.png}\\[0.4em]
+	\includegraphics[width=0.85\linewidth]{images/captura_proyeccion_sarima_holdout.png}
+	\caption{Proyección mensual §1 — SARIMA escenario A: (arriba) configuración y métricas in-sample; (centro) serie observada vs.\ SARIMA + extrapolación; (abajo) prueba hold-out 3 meses reservados}
+	\label{fig:captura-sarima-config}
 \end{figure}
 
 \begin{figure}[H]
@@ -130,48 +208,201 @@ Las Figuras~\ref{fig:captura-sarima} y \ref{fig:captura-estacional} muestran la 
 
 \subsubsection{§2 — Prioridad territorial (índice P05)}
 
-El índice multicriterio P05 (30/15/20/20/15) no entrena modelos predictivos: ordena territorios del periodo filtrado. En escenario A (comunas), \textbf{La Candelaria} lidera con índice \textbf{62,6} y 12\,921 incidentes; la correlación de Spearman entre índice y frecuencia es \textbf{0,8498} y el solapamiento top-5 índice/frecuencia es de 5 territorios, calificando el ranking como \textbf{útil} para priorización. La Figura~\ref{fig:captura-p05} reproduce el ranking en la interfaz, donde La Candelaria lidera por frecuencia, densidad y participación (scores 100 en esos componentes). En barrios (escenario B), el líder por índice es Sin Inf (Robledo), pero el ranking se marca \textbf{parcial} porque el \#1 por índice no coincide con el \#1 por volumen (Spearman 0,9033 sobre top 50 de 270 barrios).
+La sección 2 emplea \textbf{fórmula fija} (índice P05); no hay selector de modelo. La Tabla~\ref{tab:caso-estudio-p05} resume el escenario A; la Figura~\ref{fig:captura-p05} reproduce el ranking en la interfaz.
+
+\begin{table}[H]
+	\centering
+	\caption{Prioridad territorial P05 — escenario A (caso de estudio)}
+	\label{tab:caso-estudio-p05}
+	\small
+	\begin{tabularx}{\linewidth}{@{}l r@{}}
+		\toprule
+		\textbf{Indicador} & \textbf{Valor} \\
+		\midrule
+		Nivel territorial & Comuna (22 elegibles) \\
+		Incidentes en periodo & 75\,088 \\
+		\#1 índice compuesto & La Candelaria (índice 62,6; 12\,921 incidentes) \\
+		\#1 por volumen & Puesto 1 (coincide con índice) \\
+		Nivel de prioridad & Alto \\
+		Spearman índice$\leftrightarrow$frecuencia & 0,8498 \\
+		Utilidad documentada & Sí \\
+		\bottomrule
+	\end{tabularx}
+\end{table}
+
+El ranking sintetiza \textbf{dónde concentró el problema en el pasado} (frecuencia, densidad, tendencia, gravedad, participación). Complementa las proyecciones de §1 y §3: liderar P05 no implica automáticamente la mayor carga proyectada en P08. En barrios (escenario B), la utilidad es \textbf{parcial} porque el \#1 por índice (Sin Inf, Robledo) no coincide con el \#1 por volumen. La Figura~\ref{fig:captura-p05} muestra la fórmula del índice y el top-3 (La Candelaria, Castilla, Laureles-Estadio).
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.95\linewidth]{images/captura_prioridad_p05.png}
-	\caption{Prioridad territorial §2 — índice P05 por comuna (escenario A, 2018--2021)}
+	\includegraphics[width=0.98\linewidth]{images/captura_prioridad_p05_tabla.png}
+	\caption{Prioridad territorial §2 — índice P05, fórmula y ranking por comuna (escenario A, 2018--2021)}
 	\label{fig:captura-p05}
 \end{figure}
 
 \subsubsection{§3 — Carga territorial}
 
-En escenario A (comunas), el modelo \textbf{estacional} proyecta la mayor carga en \textbf{La Candelaria} (982,2 incidentes en horizonte de 3 meses) con Spearman carga$\leftrightarrow$frecuencia de \textbf{0,9492} y coherencia con P05 en el territorio líder. El MAPE mediano hold-out territorial ronda \textbf{33\,\%}: las cifras absolutas deben leerse de forma \textbf{comparativa}, no como presupuesto exacto. ARIMA desplaza el líder a Sin Inf (cierre \textbf{parcial}). A nivel barrio, 220 de 270 territorios carecen de proyección individual en el ajuste, por lo que el ranking ciudadano por barrio se reporta como \textbf{parcial}.
+En el caso de estudio A, la Tabla~\ref{tab:caso-estudio-seccion3} contrasta seis modelos por ranking territorial y precisión de cifras. Surgen \textbf{dos criterios que pueden divergir}: $\mu \pm 3\sigma$ logra el Spearman más alto (0,9989) y el MAPE mediano territorial más bajo (21,29\,\%), pero proyecta carga constante por comuna; \textbf{estacional} captura variación mensual y se adopta en producción (La Candelaria, 982,2 incidentes en horizonte). \textbf{ARIMA} degrada el ranking (líder erróneo: Sin Inf; utilidad \textbf{parcial}).
+
+\begin{table}[H]
+	\centering
+	\caption{Carga territorial §3 — matriz modelo $\times$ ranking (escenario A)}
+	\label{tab:caso-estudio-seccion3}
+	\footnotesize
+	\begin{tabularx}{\linewidth}{@{}l l r r r c c c@{}}
+		\toprule
+		\textbf{Modelo} & \textbf{Top carga} & \textbf{Carga \#1} & \textbf{Spearman} & \textbf{MAPE med.} & \textbf{Conf. rank.} & \textbf{Conf. cifras} & \textbf{Útil} \\
+		\midrule
+		Estacional & La Candelaria & 982,2 & 0,9492 & 33,16\,\% & bueno & bajo & Sí \\
+		OLS & La Candelaria & 939,6 & 0,9639 & 26,27\,\% & bueno & mod. & Sí \\
+		Media móvil & La Candelaria & 841,0 & 0,8227 & 24,16\,\% & bueno & mod. & Sí \\
+		$\mu \pm 3\sigma$ & La Candelaria & 906,5 & 0,9989 & 21,29\,\% & bueno & mod. & Sí \\
+		ARIMA & Sin Inf & 1088,2 & 0,8001 & 45,52\,\% & mod. & bajo & Parcial \\
+		SARIMA & La Candelaria & 907,5 & 0,8001 & 58,67\,\% & bueno & bajo & Sí \\
+		\bottomrule
+	\end{tabularx}
+\end{table}
+
+La carga no debe leerse como presupuesto exacto: MAPE mediano $\approx 21$--33\,\% indica \textbf{orden de magnitud y ranking}, no cifra puntual. A nivel barrio, 220 de 270 territorios carecen de proyección individual (utilidad \textbf{parcial}). Las Figuras~\ref{fig:captura-carga-config} y \ref{fig:captura-carga-ranking} reproducen la evaluación en interfaz: confianza del ranking (Spearman 0,9492; \#1 carga = \#1 volumen) frente a confianza baja en cifras absolutas (MAPE mediano 33,16\,\%), y barras de carga proyectada con La Candelaria al frente ($\approx$982 incidentes en horizonte).
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.95\linewidth]{images/captura_carga_territorial_config.png}
+	\caption{Carga territorial §3 — modelo estacional, métricas de confianza del ranking y de cifras (escenario A)}
+	\label{fig:captura-carga-config}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.92\linewidth]{images/captura_carga_territorial_ranking.png}
+	\caption{Carga territorial §3 — ranking de carga proyectada por comuna (horizonte 3 meses)}
+	\label{fig:captura-carga-ranking}
+\end{figure}
 
 \subsubsection{§4 — Proporción de víctimas fatales}
 
-Para el porcentaje mensual de víctimas fatales (escenario A), el modelo \textbf{estacional} alcanza MAPE hold-out de \textbf{21,96\,\%} con R$^2 = 0{,}38$; \textbf{logit con exposición} (20,25\,\%) y \textbf{ratio compuesto} (21,18\,\%) son alternativas viables. OLS, logística, media móvil y ARIMA/SARIMA superan el umbral del 20\,\% en hold-out o presentan R$^2$ cercano a cero, coherente con la volatilidad del indicador. El porcentaje proyectado en horizonte se sitúa en torno a \textbf{0,67\,\%}, cercano al promedio histórico.
+El \% mensual observado medio es \textbf{0,66\,\%} (bajo y volátil; R$^2$ moderado 0,35--0,38 es esperable). En el caso de estudio, \textbf{logit con exposición} obtiene el mejor MAPE hold-out (\textbf{20,25\,\%}); \textbf{estacional} (21,96\,\%) y \textbf{ratio compuesto} (21,18\,\%) permanecen en rango razonable. OLS alcanza el peor hold-out (36,54\,\%); media móvil, logística, ARIMA y SARIMA superan 28\,\% y no se recomiendan para este indicador.
 
 \begin{table}[H]
 	\centering
 	\caption{Proporción de víctimas fatales — escenario A (hold-out 3 meses)}
 	\label{tab:resultados-seccion4-a}
 	\small
-	\begin{tabularx}{\linewidth}{@{}l r r r c@{}}
+	\begin{tabularx}{\linewidth}{@{}l r r r r c@{}}
 		\toprule
-		\textbf{Modelo} & \textbf{R$^2$} & \textbf{MAPE ajuste (\%)} & \textbf{MAPE hold-out (\%)} & \textbf{Útil} \\
+		\textbf{Modelo} & \textbf{R$^2$} & \textbf{MAPE ajuste (\%)} & \textbf{MAPE hold-out (\%)} & \textbf{\% obs.} & \textbf{Útil} \\
 		\midrule
-		Estacional & 0,38 & 16,46 & \textbf{21,96} & Sí \\
-		Logit con exposición & 0,36 & 15,23 & 20,25 & Sí \\
-		Ratio compuesto & 0,38 & 16,13 & 21,18 & Sí \\
-		Media móvil & 0,32 & 17,01 & 35,09 & No \\
-		OLS / logística & $\approx 0$ & $>$21 & $>$35 & No \\
+		Logit con exposición & 0,36 & 15,23 & \textbf{20,25} & 0,66\,\% & Sí \\
+		Ratio compuesto & 0,38 & 16,13 & 21,18 & 0,66\,\% & Sí \\
+		Estacional & 0,38 & 16,46 & 21,96 & 0,66\,\% & Sí \\
+		Media móvil & 0,32 & 17,01 & 35,09 & 0,66\,\% & No \\
+		OLS / logística & $\approx 0$ & $>$21 & $>$35 & 0,66\,\% & No \\
+		ARIMA / SARIMA & $\approx 0$ & $>$24 & $>$28 & 0,66\,\% & No \\
 		\bottomrule
 	\end{tabularx}
 \end{table}
 
+Las Figuras~\ref{fig:captura-fatales-config} y \ref{fig:captura-fatales-serie} muestran el ajuste de \textbf{logit con exposición} (WLS sobre logit(\%) ponderado por víctimas/mes): R$^2 \approx 0{,}36$, MAPE in-sample 15,23\,\% y hold-out 20,25\,\%, con la serie \% observado vs.\ ajuste/proyección y banda de incertidumbre al final del horizonte.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.95\linewidth]{images/captura_fatales_config.png}
+	\caption{Proporción de fatales §4 — configuración logit con exposición y bondad del ajuste}
+	\label{fig:captura-fatales-config}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.92\linewidth]{images/captura_fatales_serie.png}
+	\caption{Proporción de fatales §4 — \% mensual observado vs.\ ajuste y proyección (escenario A)}
+	\label{fig:captura-fatales-serie}
+\end{figure}
+
 \subsubsection{§5 — Patrones temporales (P12 y P13)}
 
-Los patrones día$\times$hora heredan el total proyectado de §1 y reparten según pesos históricos con suavizado Laplace. En escenario A, con modelo estacional en §1, el total proyectado a 3 meses es \textbf{5\,530,96} incidentes; la celda líder \textbf{P12} permanece en \textbf{martes 07:00} (69 incidentes proyectados, 1,25\,\% de participación) y el día líder \textbf{P13} es \textbf{martes} (842 incidentes, 15,22\,\%). El Spearman entre ranking observado y proyectado de celdas alcanza \textbf{0,9992}: los modelos mensuales alteran el volumen total pero \textbf{no cambian el patrón relativo} de concentración horaria. Con SARIMA adoptado en §1, el total baja a 4\,572,92 incidentes, manteniendo los mismos líderes temporales.
+Los patrones día$\times$hora heredan el total de §1 y reparten con pesos históricos y suavizado Laplace. La Tabla~\ref{tab:caso-estudio-seccion5} muestra que el \textbf{patrón relativo es idéntico} entre modelos (Spearman $\approx 0{,}999$): la celda líder permanece en \textbf{martes 07:00} y el día líder en \textbf{martes}. Solo cambia el \textbf{total del horizonte} ---mayor con estacional (5\,530,96), menor con SARIMA (4\,572,92)--- coherente con el hold-out de §1.
+
+\begin{table}[H]
+	\centering
+	\caption{Patrones temporales §5 — escenario A (hereda total de §1)}
+	\label{tab:caso-estudio-seccion5}
+	\small
+	\begin{tabularx}{\linewidth}{@{}l r l r l c@{}}
+		\toprule
+		\textbf{Modelo §1} & \textbf{Total horiz.} & \textbf{P12 líder} & \textbf{Spearman} & \textbf{P13 líder} & \textbf{Útil} \\
+		\midrule
+		Estacional & 5\,530,96 & Martes 07:00 & 0,9992 & Martes & Sí \\
+		OLS & 5\,377,21 & Martes 07:00 & 0,9992 & Martes & Sí \\
+		Media móvil & 5\,189,01 & Martes 07:00 & 0,9992 & Martes & Sí \\
+		$\mu \pm 3\sigma$ & 5\,260,08 & Martes 07:00 & 0,9992 & Martes & Sí \\
+		ARIMA & 4\,756,21 & Martes 07:00 & 0,9992 & Martes & Sí \\
+		SARIMA & 4\,572,92 & Martes 07:00 & 0,9989 & Martes & Sí \\
+		\bottomrule
+	\end{tabularx}
+\end{table}
+
+Las Figuras~\ref{fig:captura-patrones-dia} y \ref{fig:captura-patrones-hora} materializan §5 en la interfaz. El patrón por día de la semana conserva \textbf{martes} como líder tanto en observado como en proyectado; la matriz día$\times$hora muestra el pico histórico en \textbf{martes 07:00} (941 incidentes en el periodo) y su homólogo proyectado en la misma celda (69 en el horizonte de 3 meses). La diferencia es negativa en todas las celdas porque el horizonte proyectado agrega menos volumen que el periodo histórico completo; lo relevante para la efectividad del sistema es la \textbf{estabilidad del patrón relativo}, no la magnitud absoluta de la diferencia.
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.95\linewidth]{images/captura_patrones_dia_semana.png}
+	\caption{Patrones §5 — participación por día de la semana (observado vs.\ proyección, escenario A)}
+	\label{fig:captura-patrones-dia}
+\end{figure}
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.98\linewidth]{images/captura_patrones_dia_hora.png}
+	\caption{Patrones §5 — matrices día$\times$hora: periodo seleccionado, proyección (3 meses) y diferencia (escala distinta; patrón relativo estable)}
+	\label{fig:captura-patrones-hora}
+\end{figure}
+
+La utilidad operativa combina \textit{cuánto} (§1), \textit{dónde} (§3) y \textit{cuándo} (§5), con contexto de prioridad histórica (§2) y gravedad (§4).
 
 \subsubsection{Evaluación complementaria $\mu \pm 3\sigma$}
 
-El modelo de línea base $\mu \pm 3\sigma$ proyecta la media histórica con bandas de control. En escenario A (§1), la media es 1\,753,4 incidentes/mes ($\sigma = 247{,}6$); el 100\,\% de los meses de ajuste caen dentro de $\mu \pm 3\sigma$ y el MAPE hold-out es 17,19\,\%. No reemplaza a SARIMA en ciudad, pero aporta un contraste didáctico y bandas de control interpretables.
+El modelo de línea base $\mu \pm 3\sigma$ proyecta la media histórica con bandas de control. En escenario A (§1), la media es 1\,753,4 incidentes/mes ($\sigma = 247{,}6$; banda [1011--2496]); el 100\,\% de los meses de ajuste caen dentro de $\mu \pm 3\sigma$ y el MAPE hold-out es 17,19\,\%. En §3 del mismo caso, $\mu \pm 3\sigma$ alcanza Spearman 0,9989. No reemplaza a SARIMA en ciudad, pero aporta línea base interpretable.
+
+\subsection{Síntesis del caso de estudio A}
+
+La Tabla~\ref{tab:caso-estudio-decisiones} integra las decisiones recomendadas por bloque, el criterio de mejor/peor modelo y el rol analítico en la tesis. La \textbf{cadena argumental} del caso de estudio es: §1 define el volumen futuro $\rightarrow$ §3 lo reparte por comuna $\rightarrow$ §5 por día$\times$hora; §2 aporta prioridad del pasado reciente y §4 la gravedad relativa (\% fatales).
+
+\begin{table}[H]
+	\centering
+	\caption{Decisiones del caso de estudio A — efectividad por bloque}
+	\label{tab:caso-estudio-decisiones}
+	\small
+	\begin{tabularx}{\linewidth}{@{}l X l l@{}}
+		\toprule
+		\textbf{Bloque} & \textbf{Pregunta} & \textbf{Mejor opción} & \textbf{Evitar / peor} \\
+		\midrule
+		§1 & ¿Cuántos incidentes/mes? & SARIMA (12,62\,\% hold-out) & Poisson / estacional ($>$22\,\%) \\
+		§2 & ¿Dónde priorizar (pasado)? & P05 — La Candelaria & Barrio sin contraste \# vol. \\
+		§3 & ¿Dónde se concentrará carga? & Estacional (prod.) / $\mu \pm 3\sigma$ (ranking) & ARIMA (top erróneo) \\
+		§4 & ¿Gravedad relativa? & Logit con exposición (20,25\,\%) & OLS / SARIMA sobre \% \\
+		§5 & ¿Cuándo? & Patrón estable (martes 07:00) & N/A (mismo patrón) \\
+		\bottomrule
+	\end{tabularx}
+\end{table}
+
+\begin{table}[H]
+	\centering
+	\caption{Cuadro resumen de resultados — caso de estudio A}
+	\label{tab:caso-estudio-resumen}
+	\small
+	\begin{tabularx}{\linewidth}{@{}l l X@{}}
+		\toprule
+		\textbf{Dimensión} & \textbf{Mejor enfoque} & \textbf{Indicador clave} \\
+		\midrule
+		Volumen (§1) & SARIMA & MAPE hold-out 12,62\,\% \\
+		Prioridad pasado (§2) & Índice P05 & La Candelaria (índice 62,6) \\
+		Carga futura (§3) & Estacional / $\mu \pm 3\sigma$ ranking & La Candelaria líder \\
+		Gravedad \% (§4) & Logit con exposición & MAPE hold-out 20,25\,\% \\
+		Momento (§5) & Patrón histórico + total §1 & Martes 07:00; Spearman $\approx 0{,}999$ \\
+		\bottomrule
+	\end{tabularx}
+\end{table}
+
+En conjunto, el caso de estudio demuestra que ViaData articula \textbf{cuánto $\rightarrow$ dónde $\rightarrow$ cuándo}, con prioridad histórica y gravedad, eligiendo modelos según hold-out y métricas documentadas en \texttt{MATRIZ\_ESCENARIOS\_CASO\_ESTUDIO.md} y los CSV de \texttt{Fuentes\_viaData/}. Las proyecciones son \textbf{exploratorias}: útiles para ranking, magnitud y planificación, no para predicción oficial ni intervalos de confianza.
 
 \subsection{Validación técnica del software}
 
@@ -181,4 +412,4 @@ Esta evidencia respalda el objetivo específico de validar desempeño y segurida
 
 \subsection{Síntesis de resultados}
 
-En conjunto, ViaData — Medellín cumple los objetivos planteados y entrega un instrumento geoespacial consultable sobre datos Mede. La analítica descriptiva identifica concentraciones territoriales y temporales estables (La Candelaria; martes 07:00). El módulo predictivo adopta modelos transparentes con validación hold-out: SARIMA para incidentes ciudad, estacional para carga territorial y proporción de fatales, e índice P05 fijo para priorización inmediata. Las limitaciones de precisión territorial (MAPE mediano $\approx 33\,\%$), la volatilidad del \% de fatales y el alcance parcial en barrios se discuten en la sección de discusión.
+En conjunto, ViaData — Medellín cumple los objetivos planteados y el \textbf{caso de estudio A} documenta la efectividad del sistema bajo filtros unificados (75\,088 incidentes; 22 comunas; hold-out 3 meses). La analítica descriptiva identifica concentraciones territoriales y temporales estables (La Candelaria; martes 07:00). El módulo predictivo adopta modelos transparentes con validación hold-out: SARIMA para volumen mensual, estacional para carga territorial, logit con exposición para \% de fatales, e índice P05 fijo para priorización del pasado. Las limitaciones de precisión territorial, la volatilidad del \% de fatales y el alcance parcial en barrios se discuten en la sección de discusión.
