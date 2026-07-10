@@ -69,7 +69,7 @@ Mede_Victimas_inci.xlsx  (datos abiertos Medellín)
 
 **Principio de diseño:** toda regla de limpieza vive en **`mede_limpieza.py`**. No duplique lógica en otros scripts; impórtela. Así EDA, pipeline y memoria de grado describen el mismo comportamiento.
 
-**Volumen de referencia del proyecto:** del orden de **160 000+** incidentes con coordenadas válidas tras depuración (depende del Excel y flags).
+**Volumen de referencia del proyecto:** del orden de **200 000+** incidentes con coordenadas válidas tras depuración (depende del Excel y flags).
 
 **Periodo típico en BD:** aproximadamente **2014-01-01 — 2021-09-30**.
 

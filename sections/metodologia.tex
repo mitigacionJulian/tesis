@@ -6,14 +6,14 @@ A diferencia de un análisis puramente descriptivo, la metodología incorpora \t
 
 \begin{figure}[H]
 	\centering
-	\includegraphics[width=0.62\linewidth]{images/fig_metodologia.png}
+	\includegraphics[width=0.5\linewidth]{images/fig_metodologia.png}
 	\caption{Fases metodológicas de ViaData — Medellín}
 	\label{fig:diagrama-de-metodologia}
 \end{figure}
 
 \subsection{Fuentes de datos y proceso ETL}
 
-La fuente principal corresponde al conjunto de datos abiertos \textbf{Mede} publicado en la plataforma institucional de Medellín (\texttt{Mede\_Victimas\_inci.xlsx}), que concentra registros de incidentes y víctimas con variables temporales, territoriales, de gravedad y georreferenciación. El periodo típico cargado en la base del proyecto abarca aproximadamente \textbf{2014-01-01 — 2021-09-30}, con del orden de \textbf{160\,000+} incidentes con coordenadas válidas tras depuración, según el Excel y los indicadores de calidad del pipeline \cite{atancuri2024}.
+La fuente principal corresponde al conjunto de datos abiertos \textbf{Mede} publicado en la plataforma institucional de Medellín (\texttt{Mede\_Victimas\_inci.xlsx}), que concentra registros de incidentes y víctimas con variables temporales, territoriales, de gravedad y georreferenciación. El periodo típico cargado en la base del proyecto abarca aproximadamente \textbf{2014-01-01 — 2021-09-30}, con del orden de \textbf{200\,000+} incidentes con coordenadas válidas tras depuración, según el Excel y los indicadores de calidad del pipeline \cite{atancuri2024}.
 
 La ingestión sigue un flujo \textbf{ETL reproducible} documentado y versionado. En primer lugar, el módulo \texttt{mede\_limpieza.py} concentra las reglas únicas de depuración (\texttt{depurar\_mede}), evitando duplicar lógica en otros scripts. A partir del Excel se genera \texttt{Mede\_Victimas\_inci\_depurado.csv}; el script \texttt{carga\_mede\_pgadmin.sql} realiza la carga idempotente a PostgreSQL; y los scripts PostGIS (\texttt{001}–\texttt{006}) más la carga de polígonos oficiales habilitan la asignación territorial espacial. Scripts auxiliares (\texttt{mede\_eda\_export.py}, \texttt{mede\_pipeline\_guiado.py}) apoyan el análisis exploratorio y la verificación de checkpoints. Este diseño garantiza que la memoria de grado, el EDA y la aplicación web describan el \textbf{mismo comportamiento} de limpieza \cite{provost2022}.
 
@@ -26,13 +26,15 @@ La ingestión sigue un flujo \textbf{ETL reproducible} documentado y versionado.
 
 En la etapa de depuración se abordan inconsistencias de formato, valores faltantes, normalización de catálogos (tipo de incidente, clase, gravedad) y validación de coordenadas. La calidad del análisis posterior depende directamente de esta fase; el indicador G03 del sistema permite contrastar, una vez cargados los polígonos, la coincidencia entre el territorio declarado en el registro y el asignado espacialmente.
 
+\clearpage
+
 \subsection{Diseño del modelo de datos y territorio espacial}
 
 El modelo relacional estructura la información en entidades normalizadas ---incidentes, víctimas y catálogos asociados--- con geometrías gestionadas por PostGIS. Cada incidente conserva atributos descriptivos y un punto geográfico cuando las coordenadas son válidas. ViaData — Medellín distingue dos modos de lectura territorial: \textbf{modo registro} (filtro por comuna o barrio declarado en Mede) y \textbf{modo espacial} (asignación por polígono oficial a partir de coordenadas), lo que permite evaluar la calidad cartográfica del dato y sostener agregaciones comparables en tablero, mapa y predicciones.
 
 \subsection{Arquitectura e implementación del sistema}
 
-El desarrollo adopta una \textbf{arquitectura monolítica} en Django que concentra autenticación JWT, API REST (Django REST Framework), lógica analítica y acceso a datos, mientras el frontend React (Vite) opera como aplicación de página única. Las apps \texttt{accounts}, \texttt{dashboard}, \texttt{agent} y \texttt{reports} cubren, respectivamente, usuarios y roles, KPIs y predicciones, asistente conversacional con herramientas sobre la API, y payloads para reportes imprimibles. GeoDjango y PostgreSQL/PostGIS soportan consultas espaciales; Leaflet y \texttt{react-leaflet} materializan capas en el cliente. Los cálculos predictivos emplean NumPy en rutinas propias y \textbf{statsmodels} para ARIMA/SARIMA; el ETL offline usa pandas según \texttt{requirements-etl.txt}. La Figura~\ref{fig:arquitectura-monolitica} del marco conceptual detalla el patrón MTV del backend.
+El desarrollo adopta una \textbf{arquitectura monolítica} en Django que concentra autenticación JWT, con API REST (Django REST Framework), lógica analítica y acceso a datos, mientras un microservicio frontend React (Vite) opera como aplicación de página única. Las apps \texttt{accounts}, \texttt{dashboard}, \texttt{agent} y \texttt{reports} cubren, respectivamente, usuarios y roles, KPIs y predicciones, asistente conversacional con herramientas sobre la API, y payloads para reportes imprimibles. GeoDjango y PostgreSQL/PostGIS soportan consultas espaciales; Leaflet y \texttt{react-leaflet} materializan capas en el cliente. Los cálculos predictivos emplean NumPy en rutinas propias y \textbf{statsmodels} para ARIMA/SARIMA; el ETL offline usa pandas según \texttt{requirements-etl.txt}. La Figura~\ref{fig:arquitectura-monolitica} del marco conceptual detalla el patrón MTV del backend.
 
 \subsection{Procesamiento analítico y módulo de predicciones}
 
@@ -56,7 +58,7 @@ La evaluación predictiva distingue ajuste \textbf{in-sample} y validación \tex
 
 La Tabla~\ref{tab:config-evaluacion} resume la configuración estándar del escenario de referencia A; la Tabla~\ref{tab:protocolo-bloques} especifica la métrica y la decisión adoptada por bloque. Los scripts \texttt{llenar\_evaluacion\_seccion*.py} y los CSV en \texttt{evaluaciones/} aseguran reproducibilidad numérica; los resultados detallados se reportan en la sección de resultados.
 
-\begin{table}[h]
+\begin{table}[H]
 	\centering
 	\caption{Configuración estándar de evaluación predictiva (escenario A)}
 	\label{tab:config-evaluacion}
@@ -74,7 +76,7 @@ La Tabla~\ref{tab:config-evaluacion} resume la configuración estándar del esce
 	\end{tabularx}
 \end{table}
 
-\begin{table}[h]
+\begin{table}[H]
 	\centering
 	\caption{Protocolo de evaluación por bloque del módulo de predicciones}
 	\label{tab:protocolo-bloques}
@@ -100,6 +102,8 @@ Complementariamente a la evaluación de modelos, la metodología contempla \text
 
 En conjunto, el proceso metodológico integra desarrollo tecnológico, calidad del dato, analítica descriptiva/diagnóstica/predictiva y validación reproducible, transformando datos abiertos Mede en un instrumento geoespacial consultable que responde a los objetivos planteados y deja trazabilidad para extensiones futuras documentadas en trabajo futuro.
 
+\clearpage
+
 \subsection{Instrumentos y técnicas de recolección y análisis de datos}
 
 La investigación se fundamenta en \textbf{fuentes secundarias} estructuradas: el dataset Mede como instrumento principal de recolección indirecta. No se aplican encuestas ni instrumentos de campo; la evidencia empírica proviene de registros administrativos ya consolidados por la institución.
@@ -110,4 +114,4 @@ Para el procesamiento se emplean Python (\texttt{pandas}, \texttt{numpy}) en el 
 
 La \textbf{población} objeto de estudio está conformada por el conjunto total de registros de accidentes de tránsito ocurridos en Medellín y reportados en Mede dentro del periodo disponible en el dataset cargado. Incluye distintos tipos de incidente, actores viales, condiciones y niveles de gravedad según la estructura del archivo fuente.
 
-Dado que el estudio se basa en datos secundarios, no se realiza muestreo probabilístico en sentido tradicional: se trabaja con la \textbf{totalidad de los registros} disponibles tras depuración (enfoque censal), lo que reduce sesgos de selección y permite analizar el fenómeno de manera integral \cite{oviedo2025}. Para fines analíticos, la plataforma aplica filtros temporales, geográficos y categóricos que segmentan la población en subconjuntos ---periodos, comunas, clases de incidente, rangos con o sin exclusión COVID--- sin constituir muestras independientes, sino estrategias de exploración y evaluación bajo escenarios documentados.
+Dado que el estudio se basa en datos secundarios, no se realiza muestreo probabilístico en sentido tradicional: se trabaja con un enfoque censal sobre la totalidad de los registros disponibles tras el proceso de depuración, lo que reduce sesgos de selección y permite analizar el fenómeno de manera integral \cite{oviedo2025}. Específicamente, el volumen histórico inicial contemplaba 235,843 registros, de los cuales se descartaron 22,971 filas por presentar al menos un valor ausente o nulo (lo que representa el 9.74\% del total). Tras esta depuración, la base de datos final cuenta con un \textbf{total de 212,872 datos hábiles y completos para el análisis}, garantizando la consistencia del modelo. Para fines analíticos, la plataforma aplica filtros temporales, geográficos y categóricos que segmentan esta población en subconjuntos ---periodos, comunas, clases de incidente, rangos con o sin exclusión COVID--- sin constituir muestras independientes, sino estrategias de exploración y evaluación bajo escenarios documentados.

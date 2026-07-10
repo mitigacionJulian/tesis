@@ -263,7 +263,7 @@ Mede_Victimas_inci.xlsx
 ```
 
 - **Periodo típico en BD:** 2014-01-01 — 2021-09-30.
-- **Volumen de referencia:** ~160 000+ incidentes con coordenadas válidas (según Excel y flags).
+- **Volumen de referencia:** ~200 000+ incidentes con coordenadas válidas (según Excel y flags).
 - **Principio:** toda regla de limpieza en `mede_limpieza.py`; EDA y pipeline importan la misma lógica.
 
 ### 4.2 Configuración estándar de evaluación (Predicciones)

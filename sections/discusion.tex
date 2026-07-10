@@ -18,7 +18,7 @@ Este patrón tiene implicaciones metodológicas y prácticas. Las Figuras~\ref{f
 
 \begin{itemize}
 	\item \textbf{Selección condicionada:} elegir modelo solo por R$^2$ o MAPE in-sample puede sobrevalorar Poisson y estacional en §1 (8,3--8,4\,\% in-sample frente a 22\,\% hold-out), ilustrando el riesgo de sobreajuste que la validación reservada mitiga.
-	\item \textbf{Requisitos de datos:} rangos cortos (6--12 meses) impiden o inestabilizan ARIMA/SARIMA; en esos cortes predominan media móvil, $\mu \pm 3\sigma$ o modelos parsimoniosos, no la especificación adoptada para ciudad.
+	\item \textbf{Requisitos de datos:} rangos cortos (6--12 meses) impiden o inestabilizan ARIMA/SARIMA; en esos cortes predominan media móvil, $\mu \pm 3\sigma$ o modelos simplificados, no la especificación adoptada para ciudad.
 	\item \textbf{Granularidad territorial:} a nivel comuna algunos territorios proyectan con MAPE aceptable; a nivel barrio, 220 de 270 carecen de serie suficiente en §3, lo que limita la confianza en cifras absolutas y obliga a priorizar \textbf{rankings} sobre magnitudes puntuales.
 	\item \textbf{Tipo de variable:} el porcentaje de víctimas fatales es más volátil que los conteos mensuales; allí el estacional supera a SARIMA/ARIMA, que exhiben MAPE hold-out superiores al 28\,\%.
 \end{itemize}

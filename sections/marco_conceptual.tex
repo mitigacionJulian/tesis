@@ -8,7 +8,7 @@ En ingeniería de software, la \textbf{arquitectura} condiciona mantenibilidad, 
 
 El framework Django estructura el proyecto en capas compatibles con el patrón \textbf{modelo–vista–plantilla} (MVT), favoreciendo separación de responsabilidades. \textbf{Django REST Framework} expone los endpoints que alimentan tablero, mapa, predicciones, reportes y asistente conversacional. \textbf{GeoDjango} y PostgreSQL con extensión \textbf{PostGIS} habilitan geometrías, asignación territorial y consultas espaciales. La calidad se refuerza con pruebas automatizadas (\texttt{pytest}, \texttt{pytest-django}), coherente con el objetivo específico de validar desempeño y seguridad del software.
 
-\begin{figure}[h]
+\begin{figure}[H]
 	\centering
 	\includegraphics[width=0.75\linewidth]{images/fig_arquitectura_mtv.png}
 	\caption{Patrón repositorio MTV en el backend de ViaData — Medellín}
@@ -20,7 +20,7 @@ Los \textbf{SIG} integran datos georreferenciados con atributos descriptivos (ti
 
 \textbf{PostGIS} aporta tipos y operadores espaciales (\texttt{ST\_Contains}, índices espaciales); \textbf{GeoDjango} acerca esa capacidad al dominio de la aplicación. En el cliente, \textbf{Leaflet} y \textbf{react-leaflet} materializan capas de puntos, densidad y coroplética a partir de agregaciones del backend. ViaData — Medellín distingue además un \textbf{modo de territorio registro} ---filtro por comuna o barrio declarado en el registro Mede--- y un \textbf{modo espacial} ---asignación por polígono oficial a partir de coordenadas---, lo que permite contrastar la calidad cartográfica del dato mediante el indicador G03.
 
-\begin{figure}[h]
+\begin{figure}[H]
 	\centering
 	\includegraphics[width=0.95\linewidth]{images/fig_flujo_datos_geoespacial.png}
 	\caption{Ciclo de vida de los datos geoespaciales (origen--destino)}
@@ -30,7 +30,7 @@ Los \textbf{SIG} integran datos georreferenciados con atributos descriptivos (ti
 \subsection{Definiciones operativas en ViaData — Medellín}
 Para evitar ambigüedades entre el lenguaje cotidiano de la seguridad vial y los cálculos del sistema, se adoptan las siguientes definiciones operativas:
 
-\begin{table}[h]
+\begin{table}[H]
 	\centering
 	\caption{Definiciones operativas del sistema}
 	\label{tab:definiciones-operativas}
@@ -50,15 +50,17 @@ Para evitar ambigüedades entre el lenguaje cotidiano de la seguridad vial y los
 	\end{tabularx}
 \end{table}
 
+\clearpage
+
 \subsection{Ciencia de datos, indicadores y tipos de modelos}
 La ciencia de datos articula estadística, computación y dominio para convertir registros operativos en evidencia útil. En este proyecto el flujo incluye ingestión desde el Excel Mede, depuración centralizada, asociación a catálogos normalizados y carga a PostgreSQL/PostGIS; el análisis en tiempo de consulta combina SQL parametrizado y rutinas en NumPy. La solidez del análisis depende de la calidad del dato y de su integración con contexto territorial y temporal \cite{provost2022,atancuri2024}.
 
 \subsubsection{Indicadores y analítica descriptiva / diagnóstica}
 La medición de la siniestralidad se expresa en indicadores temporales, espaciales y de gravedad (frecuencia, severidad, tendencia). En el tablero y el mapa de ViaData — Medellín, KPIs, series mensuales, matrices día$\times$hora y rankings por comuna o barrio permiten la lectura diagnóstica del periodo seleccionado. El \textbf{índice de prioridad territorial P05} ---ponderación de frecuencia (30\,\%), densidad (15\,\%), tendencia (20\,\%), componente fatal (20\,\%) y participación relativa (15\,\%)--- materializa la lógica de priorización multicriterio sin recurrir a catálogos de vía o punto crítico, ausentes en la fuente Mede cargada \cite{parraga2024}.
 
-\begin{figure}[h]
+\begin{figure}[H]
 	\centering
-	\includegraphics[width=0.55\linewidth]{images/fig_taxonomia_analitica.png}
+	\includegraphics[width=0.8\linewidth]{images/fig_taxonomia_analitica.png}
 	\caption{Taxonomía de analítica en ViaData — Medellín}
 	\label{fig:arquitectura-monolitica-pagina-3}
 \end{figure}
@@ -71,9 +73,9 @@ Las series mensuales de Medellín combinan tendencia, estacionalidad y \textbf{s
 \subsubsection{Validación predictiva: in-sample y hold-out}
 El ajuste \textbf{in-sample} mide qué tan bien el modelo reproduce el periodo con el que fue estimado (R², MAPE in-sample), pero puede sobrevalorar modelos complejos. El esquema \textbf{hold-out} reserva los últimos $N$ meses del rango, entrena sin ellos y calcula el error al predecirlos; en ViaData — Medellín es el \textbf{criterio principal} para elegir modelo en proyección mensual y proporción de fatales. Se adopta como umbral exploratorio un MAPE hold-out $\leq 20\,\%$ (precisión estimada $\approx 100\,\% - \mathrm{MAPE}$), sin exigir R² $\geq 0{,}80$ en series mensuales perturbadas por la pandemia.
 
-\begin{figure}[h]
+\begin{figure}[H]
 	\centering
-	\includegraphics[width=0.92\linewidth]{images/fig_holdout_validacion.png}
+	\includegraphics[width=0.90\linewidth]{images/fig_holdout_validacion.png}
 	\caption{Esquema de validación in-sample frente a hold-out en el módulo de predicciones}
 	\label{fig:holdout-validacion}
 \end{figure}
@@ -89,7 +91,7 @@ Técnicas espaciales como KDE o cuadrículas de concentración (hotspots P14) co
 \subsection{Taxonomía de indicadores del sistema}
 Los indicadores de ViaData — Medellín se organizan en dos familias: \textbf{G} (geoespaciales y de calidad) y \textbf{P} (predictivos y de priorización). La Tabla~\ref{tab:taxonomia-indicadores} resume su propósito; el detalle de fórmulas y evaluación se presenta en metodología y resultados.
 
-\begin{table}[h]
+\begin{table}[H]
 	\centering
 	\caption{Taxonomía de indicadores G y P}
 	\label{tab:taxonomia-indicadores}
@@ -110,12 +112,14 @@ Los indicadores de ViaData — Medellín se organizan en dos familias: \textbf{G
 	\end{tabularx}
 \end{table}
 
+\clearpage
+
 \subsection{Roles, permisos y articulación del módulo predictivo}
 El acceso a funcionalidades sigue un esquema de roles almacenado en perfil de usuario. Ciudadanos y visitantes sin autenticación consultan tablero, mapa y asistente con herramientas descriptivas; analistas y administradores acceden además a predicciones y reportes; solo el administrador gestiona cuentas. El rol autoridad se reserva para extensiones institucionales.
 
 Los cinco bloques del módulo predictivo comparten filtros de fechas, territorio, clase de incidente y exclusión opcional de meses COVID, pero responden preguntas distintas. La proyección mensual (§1) alimenta el total de horizonte para patrones día$\times$hora (§5); la prioridad territorial (§2) mira el pasado reciente; la carga esperada (§3) orienta el ranking futuro por comuna o barrio; la proporción de fatales (§4) aporta el componente de gravedad relativa al índice P05. El diagrama de la Figura~\ref{fig:cadena-predictiva} resume esas dependencias conceptuales.
 
-\begin{figure}[h]
+\begin{figure}[H]
 	\centering
 	\resizebox{\linewidth}{!}{%
 	\begin{tikzpicture}[
@@ -145,19 +149,21 @@ Los cinco bloques del módulo predictivo comparten filtros de fechas, territorio
 \subsubsection{Consulta en lenguaje natural}
 El asistente conversacional incorpora un modelo de lenguaje (Google Gemini) con \textbf{function calling}: el sistema de diálogo selecciona herramientas que invocan las mismas rutas analíticas del backend, en lugar de generar SQL libre o cifras sin trazabilidad. Este enfoque separa la interacción en lenguaje natural del motor de cálculo y reduce el riesgo de respuestas numéricas inconsistentes \cite{carrillo2024}.
 
+\clearpage
+
 \subsection{Modelado de datos para analítica: estrella y copo de nieve}
 En inteligencia de negocios y almacenes analíticos, \textbf{el modelo estrella} centraliza métricas en una tabla de hechos (p. ej., incidentes) y la rodea de dimensiones (tiempo, ubicación, tipo de evento). \textbf{El modelo copo de nieve} normaliza dimensiones en subdimensiones, reduciendo redundancia a cambio de consultas más complejas. La selección depende del equilibrio entre rendimiento, escalabilidad y mantenibilidad \cite{londono2024}.
 
 En este trabajo el \textbf{esquema operacional} en PostgreSQL sigue un \textbf{modelo relacional normalizado} (catálogos, \texttt{incidente}, \texttt{victima}, vínculos geográficos), cercano al espíritu de un copo de nieve en las dimensiones de catálogo, mientras que las consultas tipo \textbf{OLAP} (conteos por fechas, comunas, clases) simulan hechos y dimensiones sin imponer un almacén separado. Si en el futuro se materializaran vistas analíticas dedicadas, el modelo estrella sería la referencia para exponer KPIs.
 
-\begin{figure}[h]
+\begin{figure}[H]
 	\centering
 	\includegraphics[width=0.65\linewidth]{images/fig_modelo_estrella.png}
 	\caption{Modelo estrella (referencia conceptual)}
 	\label{fig:arquitectura-monolitica-pagina-4}
 \end{figure}
 
-\begin{figure}[h]
+\begin{figure}[H]
 	\centering
 	\includegraphics[width=0.85\linewidth]{images/fig_modelo_copo_nieve.png}
 	\caption{Modelo copo de nieve aplicado a incidentes y dimensiones}
