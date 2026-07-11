@@ -46,4 +46,36 @@ El asistente conversacional basado en Gemini podría evolucionar hacia un catál
 
 \subsection{Síntesis de prioridades}
 
-En síntesis, las prioridades de trabajo futuro se ordenan así: \textbf{(1)} actualizar y automatizar el dato; \textbf{(2)} incorporar indicadores viales y puntos críticos si la fuente lo permite; \textbf{(3)} ampliar el repertorio predictivo con evaluación hold-out rigurosa, especialmente en barrios; y \textbf{(4)} madurar el despliegue y la adopción institucional del instrumento. Estas líneas prolongan el equilibrio alcanzado en ViaData — Medellín entre utilidad exploratoria, transparencia metodológica y reconocimiento explícito de limitaciones \cite{lugo2025,monar2025}.
+En síntesis, las prioridades de trabajo futuro se ordenan así: \textbf{(1)} actualizar y automatizar el dato; \textbf{(2)} incorporar indicadores viales y puntos críticos si la fuente lo permite; \textbf{(3)} ampliar el repertorio predictivo con evaluación hold-out rigurosa, especialmente en barrios; y \textbf{(4)} madurar el despliegue y la adopción institucional del instrumento. La Figura~\ref{fig:flujo-trabajo-futuro} resume el flujo propuesto y las dependencias entre fases. Estas líneas prolongan el equilibrio alcanzado en ViaData — Medellín entre utilidad exploratoria, transparencia metodológica y reconocimiento explícito de limitaciones \cite{lugo2025,monar2025}.
+
+\begin{figure}[H]
+	\centering
+	\resizebox{0.88\linewidth}{!}{%
+	\begin{tikzpicture}[
+		node distance=0.55cm,
+		box/.style={draw, rounded corners, align=center, font=\scriptsize, inner sep=4pt, minimum width=6.2cm},
+		dec/.style={draw, diamond, aspect=2.2, align=center, font=\scriptsize, inner sep=1pt, minimum width=2.8cm},
+		end/.style={draw, rounded corners, align=center, font=\scriptsize, inner sep=4pt, minimum width=5.6cm, fill=gray!12},
+		arr/.style={-{Stealth[length=1.8mm]}, thick},
+		skip/.style={-{Stealth[length=1.8mm]}, thick, dashed}
+	]
+		\node[box, fill=blue!8] (act) {Estado actual: ViaData — Medellín (2014--2021, ETL manual reproducible)};
+		\node[box, fill=green!12, below=of act] (p1) {\textbf{(1) Datos y gobernanza}\\Ingesta automática · validación de esquema · versionado · extensión temporal · metadatos};
+		\node[dec, below=of p1] (cond) {¿Mede publica\\vías y puntos críticos?};
+		\node[box, fill=yellow!18, below left=0.9cm and 0.2cm of cond] (p2) {\textbf{(2) Indicadores geoespaciales}\\P11 ranking vial · G04 buffer · G05 bbox · contraste registro/espacial};
+		\node[box, fill=orange!15, below=1.35cm of cond] (p3) {\textbf{(3) Modelos predictivos}\\Jerárquicos/bayesianos · P15 ML espacial · variables exógenas · pipeline CI · MAPE hold-out $\leq 20\,\%$};
+		\node[box, fill=violet!10, below=of p3] (p4) {\textbf{(4) Plataforma e institucionalización}\\PDF en servidor · rol autoridad · APIs · despliegue productivo · asistente ampliado};
+		\node[end, below=of p4] (fin) {Sistema actualizado, trazable y orientado a adopción institucional};
+
+		\draw[arr] (act) -- (p1);
+		\draw[arr] (p1) -- (cond);
+		\draw[arr] (cond) -- node[above left, font=\tiny, sloped] {sí} (p2);
+		\draw[arr] (p2) -- (p3);
+		\draw[arr] (cond) -- node[above right, font=\tiny, sloped] {no} (p3);
+		\draw[arr] (p3) -- (p4);
+		\draw[arr] (p4) -- (fin);
+	\end{tikzpicture}%
+	}
+	\caption{Diagrama de flujo de las líneas de trabajo futuro propuestas para ViaData — Medellín}
+	\label{fig:flujo-trabajo-futuro}
+\end{figure}
