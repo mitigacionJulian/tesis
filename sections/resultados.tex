@@ -185,7 +185,7 @@ La Tabla~\ref{tab:resultados-seccion1-escenarios} resume el mejor modelo por esc
 		C & Víctimas fatales ciudad & Estacional & 19,67 \\
 		D & Comuna Castilla & Media móvil & 8,42 \\
 		E & Clase atropello & Poisson & 11,64 \\
-		F & Sin excluir COVID & ; SARIMA (32,87) & Confirma excluir COVID \\
+		F & Sin excluir COVID & SARIMA (32,87) & Confirma excluir COVID \\
 		\bottomrule
 	\end{tabularx}
 \end{table}
@@ -420,4 +420,4 @@ Esta evidencia respalda el objetivo específico de validar desempeño y segurida
 
 \subsection{Síntesis de resultados}
 
-En conjunto, ViaData — Medellín cumple los objetivos planteados y el \textbf{caso de estudio A} documenta la efectividad del sistema bajo filtros unificados (75\,088 incidentes; 22 comunas; hold-out 3 meses). La analítica descriptiva identifica concentraciones territoriales y temporales estables (La Candelaria; martes 07:00). El módulo predictivo adopta modelos transparentes con validación hold-out: SARIMA para volumen mensual, estacional para carga territorial, logit con exposición para \% de fatales, e índice P05 fijo para priorización del pasado. Las limitaciones de precisión territorial, la volatilidad del \% de fatales y el alcance parcial en barrios se discuten en la sección de discusión.
+En conjunto, ViaData — Medellín cumple los objetivos planteados y el \textbf{caso de estudio A} documenta la efectividad del sistema bajo filtros unificados (75\,088 incidentes; 22 comunas; hold-out 3 meses). La analítica descriptiva identifica concentraciones territoriales y temporales estables (La Candelaria; martes 07:00). El módulo predictivo adopta modelos transparentes con validación hold-out: SARIMA para volumen mensual, estacional para carga territorial, logit con exposición para porcentaje $(\%)$ de fatales, e índice P05 fijo para priorización del pasado. Las limitaciones de precisión territorial, la volatilidad del porcentaje $(\%)$ de fatales y el alcance parcial en barrios se discuten en la sección de discusión.
