@@ -8,18 +8,18 @@ El sistema calculó los indicadores descriptivos y diagnósticos (densidad, cali
 
 Se materializó la evolución mensual, la comparación interanual y la distribución por territorio, día y hora. El mapa analítico complementó esa lectura con puntos, densidad, coroplética y concentraciones espaciales. Los resultados confirman concentraciones recurrentes ---La Candelaria en volumen e índice P05; martes 07:00 en patrones temporales--- que orientan la focalización territorial.
 
-La suite \texttt{pytest} sobre las aplicaciones críticas del backend finalizó en verde, y el módulo de predicciones cuentó con una evaluación reproducible en CSV y scripts documentados. El criterio de validación predictiva basado en \textit{hold-out} (MAPE $\leq 20\,\%$ como umbral exploratorio) resultó más informativo que exigir R$^2 \geq 0{,}80$ en series mensuales con estacionalidad y confinamiento COVID.
+La suite \texttt{pytest} sobre las aplicaciones críticas del backend finalizó en verde, y el módulo de predicciones contó con una evaluación reproducible en CSV y scripts documentados. El criterio de validación predictiva basado en \textit{hold-out} (MAPE $\leq 20\,\%$ como umbral exploratorio) resultó más informativo que exigir R$^2 \geq 0{,}80$ en series mensuales con estacionalidad y confinamiento COVID.
 
 El sistema entregó componentes complementarios ---mapa analítico, reportes imprimibles, asistente con Gemini y gestión de usuarios--- que facilitan la operación y la comunicación de hallazgos sin alterar la formulación académica del proyecto.
 
-Desde el plano analítico del estudio son las siguientes:
+Desde el plano analítico del estudio se identificó que:
 
-\begin{enumerate}
+\begin{itemize}
 	\item Los datos abiertos Mede, depurados y cargados con reglas únicas, permiten sostener un instrumento geoespacial consultable sobre del orden de 200\,000+ incidentes georreferenciados en el periodo cargado (aprox. 2014--2021).
 	\item La analítica descriptiva y geoespacial evidencia que la siniestralidad se concentra en corredores y comunas del valle urbano, con patrones temporales persistentes que complementan la lectura por volumen bruto.
 	\item \textbf{No existe un modelo predictivo único óptimo} para todos los escenarios: la efectividad depende de la variable, el territorio, la longitud del periodo y el tratamiento del shock COVID; la interfaz expone esa contingencia mediante comparación multi-modelo bajo filtros explícitos.
 	\item El hold-out discrimina mejor que el ajuste in-sample entre modelos simplificados y especificaciones más flexibles; Poisson y estacional pueden ajustar bien el historial y perder en meses reservados, mientras SARIMA lidera en incidentes ciudad bajo escenario A.
 	\item Las proyecciones se usarán como \textbf{herramientas exploratorias} para priorización y planificación: apoyan la discusión de escenarios bajo estabilidad del patrón histórico filtrado, pero no establecen causalidad ni estiman riesgo individual \cite{oms2024,parraga2024}.
-\end{enumerate}
+\end{itemize}
 
 ViaData — Medellín demuestró que es viable articular ingeniería de software, sistemas de información geográfica y ciencia de datos en un mismo entorno orientado a la seguridad vial urbana, con modelos interpretables y evaluación documentada \cite{lugo2025,monar2025}. Las limitaciones de generalización temporal, precisión territorial fina, ausencia de variables exógenas y alcance omitido (ranking por vía, ingesta automática, ML espacial avanzado) se abordaron en la discusión y orientan las líneas de trabajo futuro de la siguiente sección.
