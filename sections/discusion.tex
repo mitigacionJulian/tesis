@@ -2,32 +2,32 @@
 
 Los resultados de la sección anterior confirman que ViaData — Medellín cumple los objetivos planteados y entrega evidencia numérica reproducible sobre datos Mede. Más allá del cumplimiento técnico, la lectura analítica del sistema sugiere tres mensajes centrales para la gestión de la accidentalidad urbana.
 
-En primer lugar, la \textbf{concentración territorial y temporal} no es aleatoria: La Candelaria lidera múltiples rankings y el patrón martes 07:00 se mantiene estable al proyectar, en línea con estudios que vinculan SIG y focalización territorial en seguridad vial \cite{xu2022,monar2025}. Esto respalda el uso del tablero y el mapa como instrumentos de diagnóstico antes de cualquier proyección.
+En primer lugar, la concentración territorial y temporal no es aleatoria: La Candelaria lidera múltiples rankings y el patrón martes 07:00 se mantiene estable al proyectar, en línea con estudios que vinculan SIG y focalización territorial en seguridad vial \cite{xu2022,monar2025}. Esto respalda el uso del tablero y el mapa como instrumentos de diagnóstico antes de cualquier proyección.
 
-En segundo lugar, el módulo predictivo \textbf{no reemplaza} el análisis descriptivo: El índice P05 (§2) resume el periodo ya observado, mientras que §1 y §3 orientan escenarios futuros con lógicas distintas. La coherencia entre ambos ---La Candelaria líder en prioridad y en carga proyectada en comunas--- refuerza la interpretación territorial, pero no debe confundirse con causalidad ni con certeza presupuestal.
+En segundo lugar, el módulo predictivo no reemplaza el análisis descriptivo: El índice P05 (§2) resume el periodo ya observado, mientras que §1 y §3 orientan escenarios futuros con lógicas distintas. La coherencia entre ambos ---La Candelaria líder en prioridad y en carga proyectada en comunas--- refuerza la interpretación territorial, pero no debe confundirse con causalidad ni con certeza presupuestal.
 
-En tercer lugar, la \textbf{validación hold-out} resultó más informativa que el ajuste in-sample para seleccionar modelos en series mensuales perturbadas por la pandemia, coherente con la literatura de conteos y series temporales en accidentalidad, donde la estacionalidad y los shocks estructurales condicionan el desempeño \cite{lugo2025,parraga2024}.
+En tercer lugar, la validación hold-out resultó más informativa que el ajuste in-sample para seleccionar modelos en series mensuales perturbadas por la pandemia, coherente con la literatura de conteos y series temporales en accidentalidad, donde la estacionalidad y los shocks estructurales condicionan el desempeño \cite{lugo2025,parraga2024}.
 
 \subsection{Contingencia del desempeño predictivo según escenario}
 
-Un hallazgo relevante de la evaluación es que \textbf{no existe un modelo único óptimo} para todos los contextos analíticos. La efectividad de OLS, estacional, Poisson, media móvil, $\mu \pm 3\sigma$, ARIMA o SARIMA depende del \textbf{escenario} definido por el usuario: variable objetivo (incidentes, víctimas o fatales), alcance territorial (ciudad, comuna, barrio, clase de incidente), longitud del periodo de ajuste y decisión de excluir o no los meses de confinamiento de 2020.
+Un hallazgo relevante de la evaluación es que no existe un modelo único óptimo para todos los contextos analíticos. La efectividad de OLS, estacional, Poisson, media móvil, $\mu \pm 3\sigma$, ARIMA o SARIMA depende del escenario definido por el usuario: variable objetivo (incidentes, víctimas o fatales), alcance territorial (ciudad, comuna, barrio, clase de incidente), longitud del periodo de ajuste y decisión de excluir o no los meses de confinamiento de 2020.
 
 La Tabla~\ref{tab:resultados-seccion1-escenarios} lo ilustra con claridad. SARIMA obtiene el mejor hold-out para incidentes a nivel ciudad cuando hay al menos 24 meses útiles y se excluye COVID del ajuste (12,62\,\% MAPE). Sin embargo, para víctimas totales gana la media móvil (14,67\,\%), para víctimas fatales el estacional (19,67\,\%), en Castilla la media móvil (8,42\,\%) y en atropellos Poisson (11,64\,\%). Cuando COVID permanece en el ajuste (escenario F), SARIMA se degrada a 32,87\,\% de MAPE hold-out, mientras modelos más simples conservan errores menores.
 
 Este patrón tiene implicaciones metodológicas y prácticas. Las Figuras~\ref{fig:captura-sarima-config} y \ref{fig:captura-estacional} del capítulo de resultados muestran, bajo idénticos filtros (escenario A), cómo un modelo con mejor ajuste in-sample puede perder frente a SARIMA en la prueba reservada:
 
 \begin{itemize}
-	\item \textbf{Selección condicionada:} Elegir modelo solo por R$^2$ o MAPE in-sample puede sobrevalorar Poisson y estacional en §1 (8,3--8,4\,\% in-sample frente a 22\,\% hold-out), ilustrando el riesgo de sobreajuste que la validación reservada mitiga.
-	\item \textbf{Requisitos de datos:} Rangos cortos (6--12 meses) impiden o inestabilizan ARIMA/SARIMA; en esos cortes predominan media móvil, $\mu \pm 3\sigma$ o modelos simplificados, no la especificación adoptada para ciudad.
-	\item \textbf{Granularidad territorial:} A nivel comuna algunos territorios proyectan con MAPE aceptable; a nivel barrio, 220 de 270 carecen de serie suficiente en §3, lo que limita la confianza en cifras absolutas y obliga a priorizar \textbf{rankings} sobre magnitudes puntuales.
-	\item \textbf{Tipo de variable:} El porcentaje de víctimas fatales es más volátil que los conteos mensuales; allí el estacional supera a SARIMA/ARIMA, que exhiben MAPE hold-out superiores al 28\,\%.
+	\item Selección condicionada: Elegir modelo solo por R$^2$ o MAPE in-sample puede sobrevalorar Poisson y estacional en §1 (8,3--8,4\,\% in-sample frente a 22\,\% hold-out), ilustrando el riesgo de sobreajuste que la validación reservada mitiga.
+	\item Requisitos de datos: Rangos cortos (6--12 meses) impiden o inestabilizan ARIMA/SARIMA; en esos cortes predominan media móvil, $\mu \pm 3\sigma$ o modelos simplificados, no la especificación adoptada para ciudad.
+	\item Granularidad territorial: A nivel comuna algunos territorios proyectan con MAPE aceptable; a nivel barrio, 220 de 270 carecen de serie suficiente en §3, lo que limita la confianza en cifras absolutas y obliga a priorizar rankings sobre magnitudes puntuales.
+	\item Tipo de variable: El porcentaje de víctimas fatales es más volátil que los conteos mensuales; allí el estacional supera a SARIMA/ARIMA, que exhiben MAPE hold-out superiores al 28\,\%.
 \end{itemize}
 
-Por ello, la interfaz de predicciones no impone un modelo cerrado de forma silenciosa; expone la \textbf{comparación multi-modelo y multi-escenario} y documenta la decisión adoptada por defecto (SARIMA ciudad incidentes; estacional en carga y pocentaje $(\%)$ fatales). El valor institucional del sistema reside tanto en la proyección puntual como en permitir al analista contrastar \textit{qué} cambia al variar territorio, periodo o tratamiento del shock COVID. Las proyecciones deben leerse como \textbf{escenarios orientativos} bajo estabilidad del patrón histórico filtrado, no como pronósticos únicos \cite{oms2024}.
+Por ello, la interfaz de predicciones no impone un modelo cerrado de forma silenciosa; expone la comparación multi-modelo y multi-escenario y documenta la decisión adoptada por defecto (SARIMA ciudad incidentes; estacional en carga y pocentaje $(\%)$ fatales). El valor institucional del sistema reside tanto en la proyección puntual como en permitir al analista contrastar \textit{qué} cambia al variar territorio, periodo o tratamiento del shock COVID. Las proyecciones deben leerse como escenarios orientativos bajo estabilidad del patrón histórico filtrado, no como pronósticos únicos \cite{oms2024}.
 
 \subsection{Coherencia entre bloques analíticos}
 
-La cadena §1$\rightarrow$§5 muestra que el modelo mensual elegido altera el \textbf{volumen} proyectado pero no el \textbf{orden relativo} del patrón día$\times$hora (Spearman $\approx 0{,}999$). Esto es consistente con un diseño en dos pasos. Primero se estima el total del horizonte, luego se reparte según pesos históricos con suavizado Laplace. Para la planificación operativa ---franjas horarias de control o campañas--- el mensaje útil es la \textbf{persistencia del patrón}, más que la cifra exacta del mes proyectado.
+La cadena §1$\rightarrow$§5 muestra que el modelo mensual elegido altera el volumen proyectado pero no el orden relativo del patrón día$\times$hora (Spearman $\approx 0{,}999$). Esto es consistente con un diseño en dos pasos. Primero se estima el total del horizonte, luego se reparte según pesos históricos con suavizado Laplace. Para la planificación operativa ---franjas horarias de control o campañas--- el mensaje útil es la persistencia del patrón, más que la cifra exacta del mes proyectado.
 
 Entre §2 y §3, P05 mide prioridad del \textit{pasado reciente} con ponderación multicriterio fija, la carga territorial proyecta el \textit{futuro} con modelos por territorio. Su coincidencia en La Candelaria refuerza la focalización, pero el índice puede destacar territorios con alta densidad o tendencia aunque no lideren volumen bruto ---como ocurre en barrios, donde Sin Inf (Robledo) encabeza P05 sin ser el de mayor frecuencia absoluta en el top general---. Esta distinción es deseable: priorización y proyección responden preguntas complementarias.
 
@@ -40,7 +40,7 @@ Entre §2 y §3, P05 mide prioridad del \textit{pasado reciente} con ponderació
 	\small
 	\begin{tabularx}{\linewidth}{@{}l X@{}}
 		\toprule
-		\textbf{Área} & \textbf{Limitación} \\
+		Área & Limitación \\
 		\midrule
 		Causalidad & No se incorporan variables exógenas (clima, políticas, cambios normativos, intervenciones viales) \\
 		COVID-19 & Shock estructural; la exclusión parcial del ajuste no elimina el fenómeno del periodo observado \\
@@ -59,11 +59,11 @@ La calidad del dato administrativo sigue siendo condición previa para cualquier
 
 \subsection{Amenazas a la validez}
 
-\textbf{Validez interna:} El esquema hold-out reduce el sobreajuste en §1 y §4; §2 y §5 emplean reglas fijas documentadas (índice P05 y reparto histórico), lo que limita el riesgo de optimización ad hoc. No obstante, la elección de excluir mar--ago 2020 es una decisión de diseño que altera el ranking de modelos y debe explicitarse en cada consulta.
+Validez interna: El esquema hold-out reduce el sobreajuste en §1 y §4; §2 y §5 emplean reglas fijas documentadas (índice P05 y reparto histórico), lo que limita el riesgo de optimización ad hoc. No obstante, la elección de excluir mar--ago 2020 es una decisión de diseño que altera el ranking de modelos y debe explicitarse en cada consulta.
 
-\textbf{Validez externa:} Los hallazgos son válidos para Medellín y el periodo Mede cargado. La generalización a otras ciudades o a periodos posteriores requiere recalibración del ETL, nuevos polígonos y reevaluación hold-out.
+Validez externa: Los hallazgos son válidos para Medellín y el periodo Mede cargado. La generalización a otras ciudades o a periodos posteriores requiere recalibración del ETL, nuevos polígonos y reevaluación hold-out.
 
-\textbf{Validez de constructo:} El umbral exploratorio de ``precisión $\approx 80\,\%$'' corresponde a MAPE hold-out $\leq 20\,\%$, no a R$^2 \geq 0{,}80$. En series mensuales con estacionalidad y confinamiento, exigir R$^2$ elevado habría descartado modelos útiles en hold-out (SARIMA ciudad exhibe R$^2$ in-sample bajo pese a MAPE hold-out competitivo).
+Validez de constructo: El umbral exploratorio de ``precisión $\approx 80\,\%$'' corresponde a MAPE hold-out $\leq 20\,\%$, no a R$^2 \geq 0{,}80$. En series mensuales con estacionalidad y confinamiento, exigir R$^2$ elevado habría descartado modelos útiles en hold-out (SARIMA ciudad exhibe R$^2$ in-sample bajo pese a MAPE hold-out competitivo).
 
 \subsection{Utilidad para la toma de decisiones}
 
@@ -73,8 +73,8 @@ A pesar de las limitaciones, el sistema aporta valor en tres frentes alineados c
 	\item Explorar primero tablero y mapa para caracterizar el periodo de interés.
 	\item Aplicar P05 para priorización territorial del pasado reciente.
 	\item Contrastar al menos dos escenarios predictivos (periodo, COVID, territorio) antes de adoptar una proyección.
-	\item Interpretar §3 y §5 en clave de \textbf{ranking y patrón}, no de cifra exacta.
+	\item Interpretar §3 y §5 en clave de ranking y patrón, no de cifra exacta.
 	\item Documentar filtros y modelo elegido al exportar reportes.
 \end{enumerate}
 
-En síntesis, la efectividad de cada modelo predictivo es \textbf{contingente al escenario analítico}. ViaData — Medellín materializa esa contingencia en la interfaz y en la evaluación reproducible, ofreciendo transparencia metodológica en lugar de un único número cerrado. Las conclusiones y el trabajo futuro derivan de este balance entre utilidad exploratoria y límites del dato y del alcance del proyecto.
+En síntesis, la efectividad de cada modelo predictivo es contingente al escenario analítico. ViaData — Medellín materializa esa contingencia en la interfaz y en la evaluación reproducible, ofreciendo transparencia metodológica en lugar de un único número cerrado. Las conclusiones y el trabajo futuro derivan de este balance entre utilidad exploratoria y límites del dato y del alcance del proyecto.

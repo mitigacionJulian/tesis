@@ -1,6 +1,6 @@
 \subsection{Anexo A — Diagrama entidad-relación del modelo de datos}
 
-El modelo relacional de ViaData — Medellín organiza el dominio de accidentalidad en tablas de \textbf{hechos} (\texttt{incidente}, \texttt{victima}), \textbf{catálogos} descriptivos (sexo, grupo de edad, condición, gravedad, clase de incidente), \textbf{territorio} (comuna, barrio) y tablas \textbf{opcionales} para infraestructura vial (\texttt{via}, \texttt{punto\_critico}), previstas en el esquema pero sin población desde Mede en la versión evaluada. La Figura~\ref{fig:esquema-bd} resume las relaciones principales; el DDL completo se incluye en el Anexo~B.
+El modelo relacional de ViaData — Medellín organiza el dominio de accidentalidad en tablas de hechos (\texttt{incidente}, \texttt{victima}), catálogos descriptivos (sexo, grupo de edad, condición, gravedad, clase de incidente), territorio (comuna, barrio) y tablas opcionales para infraestructura vial (\texttt{via}, \texttt{punto\_critico}), previstas en el esquema pero sin población desde Mede en la versión evaluada. La Figura~\ref{fig:esquema-bd} resume las relaciones principales; el DDL completo se incluye en el Anexo~B.
 
 Las geometrías oficiales de comunas y barrios se gestionan en PostGIS (scripts \texttt{001}--\texttt{006} del pipeline de carga) y complementan las claves foráneas declarativas del registro Mede. El módulo de autenticación extiende \texttt{auth\_user} de Django mediante \texttt{perfil\_usuario} y la tabla \texttt{rol}.
 
@@ -54,7 +54,7 @@ La ingesta reproducible sigue el flujo documentado en \texttt{MANUAL\_CARGA\_DAT
 	\item Verificación de conteos y del indicador G03 en la interfaz.
 \end{enumerate}
 
-\textbf{Principio de diseño:} toda regla de limpieza reside en \texttt{mede\_limpieza.py}; EDA, pipeline guiado y memoria de grado deben importar la misma lógica para garantizar reproducibilidad.
+Principio de diseño: toda regla de limpieza reside en \texttt{mede\_limpieza.py}; EDA, pipeline guiado y memoria de grado deben importar la misma lógica para garantizar reproducibilidad.
 
 \subsection{Anexo D — Manual de instalación y ejecución}
 
